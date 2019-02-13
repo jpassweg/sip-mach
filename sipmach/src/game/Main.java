@@ -8,5 +8,6 @@ public class Main {
 	
 	static void su() {
 		System.out.println("Suck 2 dick");
+		System.out.println("egloff will never see this");
 	}
 }
