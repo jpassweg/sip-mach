@@ -1,8 +1,9 @@
 package game;
 
+import javax.swing.*;
 import java.util.Random;
 
-public class Meteor {
+public class Meteor extends JComponent {
 	
 	private double x;
 	private double y;
@@ -24,12 +25,11 @@ public class Meteor {
 	void update() {
 		this.x += speed * Math.sin(phi);
 		this.y += speed * Math.cos(phi);
+		this.repaint();
 	}
+
 	
-	void show() {
-	}
-	
-	public Point getLocation() {
+	public Point getLoc() {
 		return new Point(x,y);
 	}
 	
