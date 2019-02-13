@@ -7,6 +7,6 @@ public class Main {
 	}
 	
 	static void su() {
-		System.out.println("Suck a dick");
+		System.out.println("Suck 2 dick");
 	}
 }
