@@ -9,7 +9,6 @@ public class Player implements Runnable, KeyListener {
 	private final double y = 200;	//or smth like window.height * 0.8
 	private double speed;			//negative speed -> left; pos. speed -> right
 	private final double acc = 0.5;
-	private ObjectManager parent;
 	private boolean active;
 	
 	Player(){
@@ -26,15 +25,6 @@ public class Player implements Runnable, KeyListener {
 		if(i > 0) {
 			speed += acc;
 		}
-	}
-	
-	
-	public void update() {
-		parent.update();
-	}
-
-	public synchronized void setParent(ObjectManager objectManager) {
-		this.parent = objectManager;
 	}
 
 	@Override
