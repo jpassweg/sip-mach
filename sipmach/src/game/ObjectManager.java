@@ -1,7 +1,6 @@
 package game;
 
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 public class ObjectManager implements Runnable {
 	private Window window;
