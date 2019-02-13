@@ -1,14 +1,12 @@
 package game;
 
-import java.util.List;
-import java.util.function.Predicate;
+import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 public class ObjectManager implements Runnable {
 	private Window window;
 	private Player player;
-	private double playerX;
-	private List<Meteor> meteors;
+	private LinkedList<Meteor> meteors;
 	
 	
 	public void run() 
@@ -32,14 +30,8 @@ public class ObjectManager implements Runnable {
 		tPlayer.start();
     } 
 	
-	public void updatePlayer(double x) {
-		playerX = x;
-		Predicate<? super Meteor> active = null;
-		List<Point> meteorsLoc = meteors.stream()
-			    .filter(active)
-			    .map(i -> i.getLocation())
-			    .collect(Collectors.toList());
-		window.update(playerX, meteorsLoc);
+	public void update() {
+		window.update(player, meteors);
 	}
 	
 }

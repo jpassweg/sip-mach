@@ -1,6 +1,9 @@
 package game;
 
-public class Player implements Runnable{
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class Player implements Runnable, KeyListener {
 	
 	private double x;
 	private final double y = 200;	//or smth like window.height * 0.8
@@ -35,6 +38,23 @@ public class Player implements Runnable{
 
 	@Override
 	public void run() {
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
