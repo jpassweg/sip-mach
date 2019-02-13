@@ -9,7 +9,8 @@ public class Player implements Runnable, KeyListener {
 	private final double y = 200;	//or smth like window.height * 0.8
 	private double speed;			//negative speed -> left; pos. speed -> right
 	private final double acc = 0.5;
-	ObjectManager parent;
+	private ObjectManager parent;
+	private boolean active;
 	
 	Player(){
 		this.x = 300;	//window width/2
@@ -29,22 +30,39 @@ public class Player implements Runnable, KeyListener {
 	
 	
 	public void update() {
-		//ObjectManager.setlocation(x);
+		parent.update();
 	}
 
-	public void setParent(ObjectManager objectManager) {
+	public synchronized void setParent(ObjectManager objectManager) {
 		this.parent = objectManager;
 	}
 
 	@Override
 	public void run() {
-		
+		active = true;
+		System.out.println("player is running");
+		while(active) {
+			System.out.println(x);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		switch (e.getKeyChar()) {
+		case 'x':
+			System.out.println("exit game");
+			active = false;
+			break;
 		
+		default:
+			break;
+		} 
 	}
 
 	@Override
