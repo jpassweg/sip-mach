@@ -27,6 +27,5 @@ public class Meteor {
 	}
 	
 	void show() {
-		
 	}
 }
