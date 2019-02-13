@@ -29,17 +29,16 @@ public class Window implements Runnable {
 
 	
 	
-	public void run() 
-    { 
+	public void run() { 
 		
         Thread tPlayer;
         player = new Player();
-		player.setParent(this);
 		tPlayer = new Thread(player);
 		tPlayer.start();
 		
 		while(tPlayer.isAlive()) {
 			try {
+				update();
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -48,9 +47,12 @@ public class Window implements Runnable {
 		}
 		//window.stop() add synchronized method in window that stops it
 		System.out.println("exit game from object manager");
+		System.out.println("What obj manager?? o.O");
 		
     } 
-	public void update(Player playerX, LinkedList<Meteor> meteors) {
+	
+	
+	public void update() {
 		for(int i = 0; i < meteors.size(); i++) {
 			meteors.get(i).update();
 			if(meteors.get(i).isOut()) {
@@ -61,6 +63,10 @@ public class Window implements Runnable {
 		}
 		
 		//TODO: update player
+		
+	}
+	
+	public void paint(Graphics g) {
 		
 	}
 }
