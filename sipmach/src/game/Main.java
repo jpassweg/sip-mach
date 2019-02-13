@@ -2,7 +2,7 @@ package game;
 
 public class Main {
 	public static void main(String[] args) {
-		ObjectManager objman = new ObjectManager();
+		Thread objman = new Thread(new ObjectManager());
 		objman.start();
 	}
 	

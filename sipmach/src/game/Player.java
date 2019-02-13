@@ -1,6 +1,6 @@
 package game;
 
-public class Player extends Thread{
+public class Player implements Runnable{
 	
 	private double x;
 	private final double y = 200;	//or smth like window.height * 0.8
@@ -31,6 +31,12 @@ public class Player extends Thread{
 
 	public void setParent(ObjectManager objectManager) {
 		this.parent = objectManager;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
