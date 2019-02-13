@@ -1,9 +1,15 @@
 package game;
+
 import java.awt.*;
 import java.util.LinkedList;
 import javax.swing.*;
 import java.lang.InterruptedException;
+
+
 public class Window implements Runnable {
+	
+	JPanel panel;
+	
 	
 	Window() throws InterruptedException{
 		JFrame frame = new JFrame("Hello Bitches");
@@ -14,22 +20,11 @@ public class Window implements Runnable {
 		frame.setBackground(Color.BLACK);
 		frame.setSize(600, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panels(frame);
+		this.panel = new JPanel();
+		frame.add(panel);
+		frame.setVisible(true);;
 	}
-	
-	void panels(JFrame frame) throws InterruptedException {
-		JPanel panel1 = new JPanel();
-		frame.getContentPane().add(panel1);
-		Meteor met = new Meteor();
-		panel1.add(met);
-		frame.setVisible(true);
-		
-		while(true) {
-			met.update();
-			panel1.repaint();
-			try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
-		}
-	}
+
 	
 	
 	public void run() 
@@ -39,6 +34,15 @@ public class Window implements Runnable {
     } 
 	
 	public void update(Player playerX, LinkedList<Meteor> meteors) {
+		for(int i = 0; i < meteors.size(); i++) {
+			meteors.get(i).update();
+			if(meteors.get(i).isOut()) {
+				meteors.remove(i);
+				meteors.add(new Meteor());
+				panel.add(meteors.getLast());
+			}
+		}
 		
+		//TODO: update player
 	}
 }

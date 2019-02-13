@@ -22,6 +22,10 @@ public class Meteor extends JComponent {
 		this.size = rand.nextInt(50);
 	}
 	
+	boolean isOut() {
+		return y > sizeY + size;
+	}
+	
 	void update() {
 		this.x += speed * Math.sin(phi);
 		this.y += speed * Math.cos(phi);
