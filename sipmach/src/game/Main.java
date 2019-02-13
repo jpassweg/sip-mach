@@ -8,7 +8,6 @@ public class Main {
 	static ArrayList<Meteor> meteors = new ArrayList<Meteor>();
 	static Random rand;
 	static int stepcounter = 0;
-	
 	public static void main(String[] args) {
 		
 		Window window = new Window("Try", 200, 300);

@@ -1,6 +1,5 @@
 package game;
 
-
 public class Player {
 
 	static int x;

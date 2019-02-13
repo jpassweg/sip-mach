@@ -9,7 +9,6 @@ public class Meteor {
 	int velX;
 	int velY;
 	
-	
 	Random rand;
 	
 	Meteor(Window window){
