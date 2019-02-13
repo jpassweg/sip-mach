@@ -44,5 +44,6 @@ public class Window implements Runnable {
 		}
 		
 		//TODO: update player
+		
 	}
 }

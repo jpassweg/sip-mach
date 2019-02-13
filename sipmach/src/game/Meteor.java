@@ -35,6 +35,7 @@ public class Meteor extends JComponent {
 	
 	public Point getLoc() {
 		return new Point(x,y);
+		
 	}
 	
 }
