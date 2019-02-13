@@ -34,7 +34,7 @@ public class Player implements Runnable, KeyListener {
 		while(active) {
 			System.out.println(x);
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 				x += speed;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
