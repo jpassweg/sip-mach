@@ -6,4 +6,5 @@
  *
  */
 module sipmach {
+	requires java.desktop;
 }
