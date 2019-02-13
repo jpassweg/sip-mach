@@ -29,4 +29,8 @@ public class Meteor {
 	void show() {
 	}
 	
+	public Point getLocation() {
+		return new Point(x,y);
+	}
+	
 }

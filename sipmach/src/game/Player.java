@@ -28,6 +28,11 @@ public class Player extends Thread{
 	public void update() {
 		//ObjectManager.setlocation(x);
 	}
+
+	public void setParent(ObjectManager objectManager) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
