@@ -6,7 +6,7 @@ public class Player extends Thread{
 	private final double y = 200;	//or smth like window.height * 0.8
 	private double speed;			//negative speed -> left; pos. speed -> right
 	private final double acc = 0.5;
-	
+	ObjectManager parent;
 	
 	Player(){
 		this.x = 300;	//window width/2
@@ -30,8 +30,7 @@ public class Player extends Thread{
 	}
 
 	public void setParent(ObjectManager objectManager) {
-		// TODO Auto-generated method stub
-		
+		this.parent = objectManager;
 	}
 	
 
