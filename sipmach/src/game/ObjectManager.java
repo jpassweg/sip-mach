@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ObjectManager implements Runnable {
-	private Thread window;
-	private Thread player;
+	private Window window;
+	private Player player;
 	private double playerX;
 	private List<Meteor> meteors;
 	
@@ -15,19 +15,21 @@ public class ObjectManager implements Runnable {
     { 
         System.out.println("ObjectManager" + Thread.currentThread().getId() + " is running!");
         
+        Thread tWindow;
         try {
-			window = new Thread(new Window());
+        	window = new Window();
+			tWindow = new Thread(window);
+			tWindow.start();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		window.start(); 
 		
 		
-		player = new Thread(new Player());
-		//player.setParent(this);
-		player.start();
-		
+        Thread tPlayer;
+        player = new Player();
+		player.setParent(this);
+		tPlayer = new Thread(player);
+		tPlayer.start();
     } 
 	
 	public void updatePlayer(double x) {
@@ -37,7 +39,7 @@ public class ObjectManager implements Runnable {
 			    .filter(active)
 			    .map(i -> i.getLocation())
 			    .collect(Collectors.toList());
-		//window.update(playerX, meteorsLoc);
+		window.update(playerX, meteorsLoc);
 	}
 	
 }
