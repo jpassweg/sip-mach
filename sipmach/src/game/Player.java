@@ -45,6 +45,7 @@ public class Player implements Runnable, KeyListener {
 			System.out.println(x);
 			try {
 				Thread.sleep(100);
+				x += speed;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -62,6 +63,7 @@ public class Player implements Runnable, KeyListener {
 			break;
 		case 37:
 			System.out.println("left");
+			speed--;;
 			break;
 		case 32:
 		case 38:
@@ -69,6 +71,7 @@ public class Player implements Runnable, KeyListener {
 			break;
 		case 39:
 			System.out.println("right");
+			speed++;
 			break;
 		default:
 			break;
