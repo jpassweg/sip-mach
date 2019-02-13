@@ -1,56 +1,28 @@
 package game;
-
-import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.Random;
 
-public class Meteor extends JPanel {
+public class Meteor {
+
+	int x;
+	int y;
+	int size;
+	int velX;
+	int velY;
 	
-	private double x;
-	private double y;
-	private double speed;
-	private double phi;
-	private int size;
-	private static final int sizeX = 600;
-	private static final int sizeY = 800;
-	Random rand = new Random();
 	
-	Meteor(){
-		this.x = rand.nextInt(sizeX * (int) 1.4) - sizeX * 0.2;
-		this.y = rand.nextInt(sizeY / 5) + sizeY;
-		this.speed = rand.nextDouble() * 2;
-		this.phi = rand.nextInt(90) - 45;
-		this.size = rand.nextInt(50);
-	}
+	Random rand;
 	
-	boolean isOut() {
-		return y > sizeY + size;
+	Meteor(Window window){
+		this.rand = new Random();
+		this.x = rand.nextInt((int) window.getWidth());
+		this.y = 0;
+		this.size = rand.nextInt(10) + 2;
+		this.velX = rand.nextInt(3) - 1;
+		this.velY = rand.nextInt(1) + 1;
 	}
 	
 	void update() {
-		this.x += speed * Math.sin(phi);
-		this.y += speed * Math.cos(phi);
-		this.repaint();
-		System.out.println("x: " + this.x + "y: " + this.y);
+		x += velX;
+		y += velY;
 	}
-
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.setColor(Color.green);
-		g.fillOval((int) this.x, (int) this.y,  this.size, this.size);
-	
-		
-	}
-	void setX(int x) {
-		this.x = x;
-	}
-	
-	void setY(int y) {
-		this.y = y;
-	}
-	
 }
