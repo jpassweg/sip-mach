@@ -1,9 +1,12 @@
 package game;
 
 import javax.swing.*;
+
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Random;
 
-public class Meteor extends JComponent {
+public class Meteor extends JPanel {
 	
 	private double x;
 	private double y;
@@ -17,7 +20,7 @@ public class Meteor extends JComponent {
 	Meteor(){
 		this.x = rand.nextInt(sizeX * (int) 1.4) - sizeX * 0.2;
 		this.y = rand.nextInt(sizeY / 5) + sizeY;
-		this.speed = rand.nextDouble() * 20;
+		this.speed = rand.nextDouble() * 2;
 		this.phi = rand.nextInt(90) - 45;
 		this.size = rand.nextInt(50);
 	}
@@ -30,12 +33,24 @@ public class Meteor extends JComponent {
 		this.x += speed * Math.sin(phi);
 		this.y += speed * Math.cos(phi);
 		this.repaint();
+		System.out.println("x: " + this.x + "y: " + this.y);
 	}
 
 	
-	public Point getLoc() {
-		return new Point(x,y);
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(Color.green);
+		g.fillOval((int) this.x, (int) this.y,  this.size, this.size);
+	
 		
+	}
+	void setX(int x) {
+		this.x = x;
+	}
+	
+	void setY(int y) {
+		this.y = y;
 	}
 	
 }
