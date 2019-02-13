@@ -54,12 +54,22 @@ public class Player implements Runnable, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		switch (e.getKeyChar()) {
-		case 'x':
+		switch (e.getKeyCode()) {
+		case 69:
+		case 88:
 			System.out.println("exit game");
 			active = false;
 			break;
-		
+		case 37:
+			System.out.println("left");
+			break;
+		case 32:
+		case 38:
+			System.out.println("shoot");
+			break;
+		case 39:
+			System.out.println("right");
+			break;
 		default:
 			break;
 		} 
