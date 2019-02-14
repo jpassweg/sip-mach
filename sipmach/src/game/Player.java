@@ -8,6 +8,7 @@ public class Player {
 	double speed;
 	double acc = 0.5;
 	int playerWidth = 10;
+	int plyerHeight = 10;
 
 	
 	Player(int screenWidth, int screenHeight){

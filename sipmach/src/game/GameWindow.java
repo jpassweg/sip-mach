@@ -20,9 +20,10 @@ public class GameWindow {
 		this.screenHeight = screenHeight;
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
-		this.boostCounter = 5;
-		this.timeSteps = 0;
-		this.movable = true;
+		
+		boostCounter = 5;
+		timeSteps = 0;
+		movable = true;
 	}
 
 	public void run() {
@@ -34,21 +35,25 @@ public class GameWindow {
 		int movement = 0;
 
 		while (window.isOpen()) {
-
+			//put old version on canvas
 			draw();
-
+			//update to new version
 			for (int i = 0; i < meteors.size(); i++) {
 				Meteor curr = meteors.get(i);
+				
+				//collisions
 				if (Math.sqrt(Math.pow((curr.x - player.x), 2) + Math.pow((curr.y - player.y), 2)) < curr.size) {
 					System.out.println("collision: (" + curr.x + "," + curr.y + ") - " + curr.size);
 				}
 
+				//update of remove if out of screen
 				if (curr.y > screenHeight) {
 					meteors.remove(curr);
 				} else {
 					curr.update();
 				}
 			}
+			
 			stepcounter++;
 			if (rand.nextInt(50 - Math.min(45, (int) stepcounter / 50)) == 0) {
 				meteors.add(new Meteor(screenWidth, screenHeight));
@@ -56,12 +61,11 @@ public class GameWindow {
 			if (stepcounter % 500 == 0 && boostCounter < 5) {
 				boostCounter++;
 			}
-			if (!movable) {
-				timeSteps++;
-				if (timeSteps >= 200) {
-					timeSteps = 0;
-					movable = true;
-				}
+
+			timeSteps++;
+			if (timeSteps >= 200) {
+				timeSteps = 0;
+				movable = true;
 			}
 
 			movement = 0;
@@ -78,8 +82,8 @@ public class GameWindow {
 			}
 			player.move(movement);
 
+			//refresh
 			window.refreshAndClear(5);
-
 		}
 	}
 
