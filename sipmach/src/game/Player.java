@@ -23,8 +23,8 @@ public class Player {
 		} else if( x > screenWidth + 10) {
 			x = -10;
 		}
-		if(speed >= 10) {
-			return;
+		if(speed >= 4) {
+			speed = 4;
 		}
 		
 		speed += acc * movement;
