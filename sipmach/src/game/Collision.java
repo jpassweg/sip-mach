@@ -14,6 +14,11 @@ public class Collision {
 	
 	
 	//deletes shot and meteor
+	/*
+	 * TODO: add animation
+	 * -> let meteor stay inplace until end of animation
+	 * -> only then delete meteor
+	 */
 	
 	static void shotMeteor(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
 		for(int i = 0; i < shots.size(); i++) {
