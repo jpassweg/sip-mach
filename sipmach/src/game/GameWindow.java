@@ -1,7 +1,6 @@
 package game;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.lang.ClassCastException;
@@ -10,31 +9,39 @@ public class GameWindow {
 	
 	String spaceshipSkin = "graphics/RoundSpaceShip.png";
 	String meteorSkin = "graphics/SwissCheeseMeteor.png";
+	String backgroundSkin= "graphics/background1.png";
 	
 	private Window window;
 	private Player player;
 	public ArrayList<Meteor> meteors;
 	public ArrayList<Shot> shots;
-	Random rand;
+	
 	int stepcounter = 0; // also score
+	int highscore;
+	
 	int screenWidth;
 	int screenHeight;
-	String direction;
-	String imagePath = "graphics/alien_spaceshi.png";
+	
 	String meteor = "game.DownfallMeteor";
 	Constructor<?> meteorConstructor;
 	double meteorRate;
-
-	int highscore;
-	
 	int maxRad;
+	
+	Random rand;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
+		
 		window = new Window("Pixels", screenWidth, screenHeight);
+		window.setResizable(false);
+		window.open();
+		
+		player = new Player(screenWidth, screenHeight, spaceshipSkin);
+		
 		meteors = new ArrayList<Meteor>();
 		shots = new ArrayList<Shot>();
+		
 		try {
 			Class<?> meteorClass = Class.forName(meteor);
 			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE);
@@ -46,13 +53,9 @@ public class GameWindow {
 			meteorRate = 1;
 		}
 		
-		
-		this.highscore = 0;
+		highscore = 0;
 
-		player = new Player(screenWidth, screenHeight, imagePath);
-		rand = new Random();
-		window.setResizable(false);
-		window.open();
+		rand = new Random();		
 	}
 	
 	int giveMaxRad(Meteor met) {
@@ -69,17 +72,44 @@ public class GameWindow {
 
 		while (window.isOpen()) {
 			draw();
-			computeCollisions();
+			handleCollisions();
 			handleMeteors();
 			handlePlayer();
 			handleShots();
 			
-
 			stepcounter++;
 			window.refreshAndClear(10);
 		}
 	}
 
+	private void handleCollisions() {
+		if (Collision.collides(player, meteors)) {
+			if (stepcounter > highscore)
+				highscore = stepcounter;
+			reset();
+		}
+		Collision.shotMeteorB(shots, meteors);
+	}
+	
+	private void handleMeteors() {
+		// update of remove if out of screen
+		for (int i = 0; i < meteors.size(); i++) {
+			if (meteors.get(i).y > screenHeight) {
+				meteors.remove(i);
+			} else {
+				meteors.get(i).update();
+			}
+		}
+
+		if (rand.nextDouble() < meteorRate / 5.0) {
+			try {
+				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1));
+			} catch (Exception e) {
+				meteors.add(new MayhemMeteor(screenWidth, screenHeight, 1));
+			}
+		}
+	}
+	
 	private void handlePlayer() {
 		int movement = 0;
 		if (stepcounter % 500 == 0) {
@@ -96,40 +126,21 @@ public class GameWindow {
 		player.move(movement);
 	}
 
-	private void handleMeteors() {
-		// update of remove if out of screen
-		for (int i = 0; i < meteors.size(); i++) {
-			if (meteors.get(i).y > screenHeight) {
-				meteors.remove(i);
-			} else {
-				meteors.get(i).update();
-			}
+	void handleShots() {
+		if (window.wasKeyTyped("space")) {
+			if (player.shotCounter > 0) {
+				shots.add(new Shot(player.x, player.y));
+				player.shotCounter--;
+			} 
 		}
-
-		if (rand.nextInt(5) == 0 && rand.nextDouble() < meteorRate) {
-			try {
-				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1));
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NullPointerException e) {
-				meteors.add(new MayhemMeteor(screenWidth, screenHeight, 1));
-			}
-		}
-	}
-
-	private void computeCollisions() {
-		if (Collision.collides(player, meteors)) {
-			if (stepcounter > highscore)
-				highscore = stepcounter;
-			reset();
-		}
-		Collision.shotMeteorB(shots, meteors);
 	}
 
 	void draw() {
 		window.setColor(0, 0, 0);
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
-		window.drawImage("graphics/background1.png", 0, 0, (double) screenWidth/200.0);
+		window.drawImage(backgroundSkin, 0, 0, (double) screenWidth/200.0);
 		window.setColor(139, 69, 19);
+		
 		for (int i = 0; i < meteors.size(); i++) {
 			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, 1.0/(maxRad) * meteors.get(i).radius);
 		}
@@ -141,7 +152,9 @@ public class GameWindow {
 				shots.remove(i);
 			}
 		}
+		
 		window.drawImageCentered(spaceshipSkin, player.x, player.y);
+		
 		drawBoostCounter();
 		drawStats();
 	}
@@ -173,20 +186,7 @@ public class GameWindow {
 		stepcounter = 0;
 		meteors.clear();
 		player.reset();
-		resetShots();
-	}
-
-	void resetShots() {
 		shots.clear();
-	}
-
-	void handleShots() {
-		if (window.wasKeyTyped("space")) {
-			if (player.shotCounter > 0) {
-				shots.add(new Shot(player.x, player.y));
-				player.shotCounter--;
-			} 
-		}
 	}
 
 }
