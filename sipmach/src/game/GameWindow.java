@@ -1,25 +1,27 @@
 package game;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class GameWindow {
-	Window window;
-	Player player;
-	ArrayList<Meteor> meteors;
-	ArrayList<Shot> shots;
+	private Window window;
+	private Player player;
+	public ArrayList<Meteor> meteors;
+	public ArrayList<Shot> shots;
 	Random rand;
-	int stepcounter = 0;
+	int stepcounter = 0; // also score
 	int screenWidth;
 	int screenHeight;
 	String direction;
 	String imagePath = "src/alien_spaceshi.png";
+	String meteor = "game.DownfallMeteor";
+	Constructor<?> meteorConstructor;
+	double meteorRate;
 
-	int score;
 	int highscore;
 
-	int shotCounter;
-	int initialShotAmount = 5;
 	int timer;
 	boolean canShoot;
 	boolean shoot;
@@ -30,86 +32,85 @@ public class GameWindow {
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
 		shots = new ArrayList<Shot>();
-		shotCounter = initialShotAmount;
 		canShoot = true;
 		shoot = false;
 		this.timer = 0;
-
-		this.score = 0;
+		try {
+			Class<?> meteorClass = Class.forName(meteor);
+			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE);
+			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight);
+			meteorRate = instance.rate;
+			System.out.println(meteorRate);
+		} catch (Exception e) {
+			e.printStackTrace();
+			meteorRate = 1;
+		}
+		
+		
 		this.highscore = 0;
-	}
 
-	public void run() {
 		player = new Player(screenWidth, screenHeight, imagePath);
 		rand = new Random();
 		window.setResizable(false);
 		window.open();
+	}
 
-		int movement = 0;
+	public void run() {
 
 		while (window.isOpen()) {
-			// put old version on canvas
 			draw();
-			// update to new version
-
-			// collisions
-			if (Collision.collides(player, meteors)) {
-				// System.out.println("collision: (" + curr.x + "," + curr.y + ") - " +
-				// curr.size);
-				if (score > highscore)
-					highscore = score;
-				reset();
-			}
-
-			// update of remove if out of screen
-			for (int i = 0; i < meteors.size(); i++) {
-				if (meteors.get(i).y > screenHeight) {
-					meteors.remove(i);
-				} else {
-					meteors.get(i).update();
-				}
-
-			}
+			computeCollisions();
+			handleMeteors();
+			handlePlayer();
+			handleShots();
 
 			stepcounter++;
-			if (rand.nextInt(50 - Math.min(45, (int) stepcounter / 50)) == 0) {
-				meteors.add(new MayhemMeteor(screenWidth, screenHeight));
-			}
+			window.refreshAndClear(10);
+		}
+	}
 
-			// Handle Boosts
-			if (stepcounter % 500 == 0) {
-				player.addBoost();
-				if (shotCounter < 5) {
-					shotCounter++;
-				}
-			}
+	private void handlePlayer() {
+		int movement = 0;
+		if (stepcounter % 500 == 0) {
+			player.addBoost();
+			player.addShot();
+		}
 
-			if (window.wasKeyTyped("left")) {
-				movement = -1;
-			} else if (window.wasKeyTyped("right")) {
-				movement = 1;
-			}
-
-			// Handle shots
-			if (window.wasKeyTyped("space")) {
-				shoot = true;
-			}
-			handleShots(shoot);
-			
-
-			
+		if (window.wasKeyTyped("left")) {
+			movement = -1;
+		} else if (window.wasKeyTyped("right")) {
+			movement = 1;
+		}
 
 		player.move(movement);
-		movement = 0;
-		shoot = false;
-		// TODO: Meteor collisions? maybe not in O(n!)
-		// Collision.meteorCollisions(meteors, window);
-		score++;
-		drawStats();
-
-		// refresh
-		window.refreshAndClear(5);
 	}
+
+	private void handleMeteors() {
+		// update of remove if out of screen
+		for (int i = 0; i < meteors.size(); i++) {
+			if (meteors.get(i).y > screenHeight) {
+				meteors.remove(i);
+			} else {
+				meteors.get(i).update();
+			}
+		}
+
+		if (rand.nextInt(5) == 0 && rand.nextDouble() < meteorRate) {
+			try {
+				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight));
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NullPointerException e) {
+				meteors.add(new MayhemMeteor(screenWidth, screenHeight));
+			}
+		}
+	}
+
+	private void computeCollisions() {
+		if (Collision.collides(player, meteors)) {
+			if (stepcounter > highscore)
+				highscore = stepcounter;
+			reset();
+		}
 	}
 
 	void draw() {
@@ -132,6 +133,7 @@ public class GameWindow {
 		window.drawImageCentered("src/RoundSpaceShip.png", player.x, player.y);
 		window.drawImageCentered(imagePath, player.x, player.y);
 		drawBoostCounter();
+		drawStats();
 	}
 
 	void drawBoostCounter() {
@@ -152,36 +154,40 @@ public class GameWindow {
 	void drawStats() {
 		window.setColor(255, 255, 255);
 		window.setStrokeWidth(4);
-		window.drawString("Score: " + score, window.getWidth() * 0.45, window.getHeight() * 0.1);
+		window.drawString("Score: " + stepcounter, window.getWidth() * 0.45, window.getHeight() * 0.1);
 		window.drawString("Highscore: " + highscore, window.getWidth() * 0.45, window.getHeight() * 0.11);
-		window.drawString("Available shots: " + shotCounter, window.getWidth() * 0.1, window.getHeight() * 0.1);
+		window.drawString("Available shots: " + player.shotCounter, window.getWidth() * 0.1, window.getHeight() * 0.1);
 	}
 
 	void reset() {
-		score = 0;
+		stepcounter = 0;
 		meteors.clear();
 		player.reset();
 		resetShots();
-		}
-		
+	}
+
 	void resetShots() {
 		shots.clear();
-		shotCounter = initialShotAmount;
 		timer = 0;
 		shoot = false;
 	}
-	
-	void handleShots(boolean shoot) {
+
+	void handleShots() {
+		// Handle shots
+		if (window.wasKeyTyped("space")) {
+			shoot = true;
+		}
+
 		if (shoot) {
-			if (shotCounter > 0) {
+			if (player.shotCounter > 0) {
 				shots.add(new Shot(player.x, player.y));
-				shotCounter--;
+				player.shotCounter--;
 				canShoot = false;
 			} else {
 				shoot = false;
 			}
-		} 
-	
+		}
+
 		if (canShoot = false) {
 			timer++;
 		}
@@ -189,6 +195,8 @@ public class GameWindow {
 			canShoot = true;
 			timer = 0;
 		}
+
+		shoot = false;
 	}
 
 }

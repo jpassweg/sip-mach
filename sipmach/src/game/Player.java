@@ -16,6 +16,7 @@ public class Player {
 	int playerWidth = 20;
 	int playerHeight = 20;
 	int boostCounter;
+	int shotCounter;
 
 	Player(int screenWidth, int screenHeight, String imgSource) {
 		BufferedImage bimg;
@@ -32,6 +33,7 @@ public class Player {
 		y = (int) (screenHeight * 0.8);
 		speed = 0;
 		boostCounter = 5;
+		shotCounter = 0;
 	}
 
 	void move() {
@@ -69,11 +71,16 @@ public class Player {
 		if (boostCounter < 5)
 			boostCounter++;
 	}
+	
+	public void addShot() {
+			shotCounter++;
+	}
 
 	void reset() {
 		x = (screenWidth / 2) + (playerWidth / 2);
 		speed = 0;
 		boostCounter = 5;
+		shotCounter = 0;
 	}
 
 }
