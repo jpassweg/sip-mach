@@ -12,12 +12,17 @@ public class GameWindow {
 	int screenWidth;
 	int screenHeight;
 	String direction;
+	
+	int score;
+	int highscore;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
+		this.score = 0;
+		this.highscore = 0;
 	}
 
 	public void run() {
@@ -37,7 +42,9 @@ public class GameWindow {
 
 				// collisions
 				if (Math.sqrt(Math.pow((curr.x - player.x), 2) + Math.pow((curr.y - player.y), 2)) < curr.size) {
-					System.out.println("collision: (" + curr.x + "," + curr.y + ") - " + curr.size);
+					//System.out.println("collision: (" + curr.x + "," + curr.y + ") - " + curr.size);
+					if(score > highscore) highscore = score;
+					reset();
 				}
 
 				// update of remove if out of screen
@@ -64,6 +71,10 @@ public class GameWindow {
 
 			player.move(movement);
 			movement = 0;
+			//Collision.meteorCollisions(meteors, window);
+			score++;
+			drawStats();
+			
 
 			// refresh
 			window.refreshAndClear(5);
@@ -95,6 +106,19 @@ public class GameWindow {
 			window.fillRect(baseX + lenX * 4 + dis * 5 - lenX * i - dis * i, baseY + 0.25, lenX, lenY - 0.25);
 
 		}
+	}
+	
+	void drawStats() {
+		window.setColor(255, 255, 255);
+		window.setStrokeWidth(4);
+		window.drawString("Score: " + score, window.getWidth() * 0.45, window.getHeight()*0.1);
+		window.drawString("Highscore: " + highscore, window.getWidth()* 0.45, window.getHeight()*0.11);
+	}
+	
+	void reset() {
+		score = 0;
+		meteors.clear();
+		player.reset();
 	}
 
 }

@@ -55,4 +55,10 @@ public class Player {
 		if(boostCounter < 5) boostCounter++;
 	}
 	
+	void reset() {
+		x = (screenWidth / 2) + (playerWidth / 2);
+		speed = 0;
+		boostCounter = 5;
+	}
+	
 }
