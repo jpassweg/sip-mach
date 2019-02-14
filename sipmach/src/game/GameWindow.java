@@ -24,7 +24,7 @@ public class GameWindow {
 		this.score = 0;
 		this.highscore = 0;
 	}
-
+	
 	public void run() {
 		player = new Player(screenWidth, screenHeight);
 		rand = new Random();
