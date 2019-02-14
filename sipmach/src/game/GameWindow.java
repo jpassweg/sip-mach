@@ -98,7 +98,7 @@ public class GameWindow {
 
 		if (rand.nextInt(5) == 0 && rand.nextDouble() < meteorRate) {
 			try {
-				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight));
+				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1));
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NullPointerException e) {
 				meteors.add(new MayhemMeteor(screenWidth, screenHeight, 1));
@@ -112,7 +112,7 @@ public class GameWindow {
 				highscore = stepcounter;
 			reset();
 		}
-		Collision.shotMeteorB(shots, meteors);
+		Collision.shotMeteor(shots, meteors);
 	}
 
 	void draw() {
@@ -120,7 +120,8 @@ public class GameWindow {
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
 		window.setColor(139, 69, 19);
 		for (int i = 0; i < meteors.size(); i++) {
-			window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
+			//window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
+			window.drawImage("src/AmericanFlagMeteor.png", meteors.get(i).x, meteors.get(i).y, 1.0/ 50 * meteors.get(i).radius);
 		}
 
 		for (int i = 0; i < shots.size(); i++) {

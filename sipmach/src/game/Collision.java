@@ -27,6 +27,9 @@ public class Collision {
 				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
 				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
 				if(shots.get(i).y < meteors.get(j).y - meteors.get(j).radius) continue;
+				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + 
+						 Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) 
+						<= Math.pow(meteors.get(j).radius, 2))) continue;
 
 				shots.remove(i);
 				meteors.remove(j);
@@ -48,8 +51,8 @@ public class Collision {
 				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
 				if(shots.get(i).y < meteors.get(j).y - meteors.get(j).radius) continue;
 				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + 
-					 Math.pow((shots.get(i).y + shots.get(i).length - meteors.get(j).y), 2) 
-					<= Math.pow(meteors.get(i).radius, 2))) continue;
+					 Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) 
+					<= Math.pow(meteors.get(j).radius, 2))) continue;
 				meteors.remove(j);
 				j--;
 			}
@@ -66,6 +69,9 @@ public class Collision {
 				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
 				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
 				if(shots.get(i).y < meteors.get(j).y - meteors.get(j).radius) continue;
+				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + 
+						 Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) 
+						<= Math.pow(meteors.get(j).radius, 2))) continue;
 
 				meteors.addAll(breakMeteor(meteors.get(j), window));
 				meteors.remove(j);

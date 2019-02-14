@@ -3,6 +3,9 @@ package game;
 import java.util.Random;
 
 public class DownfallMeteor extends Meteor {
+	
+	int maxRad = 62;
+	
 	public DownfallMeteor(int screenWidth, int screenHeight, double rate) {
 		super(screenWidth, screenHeight, 0.1);
 		Random rand = new Random();

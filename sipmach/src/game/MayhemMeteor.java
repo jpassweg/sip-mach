@@ -3,6 +3,8 @@ package game;
 import java.util.Random;
 
 public class MayhemMeteor extends Meteor {
+	
+	int maxRad = 21;
 
 	public MayhemMeteor(int screenWidth, int screenHeight, double rate) {
 		super(screenWidth, screenHeight, 1.0);
