@@ -14,7 +14,7 @@ public class Meteor {
 		this.rate = rate;
 	}
 	
-	void update() {
+	public void update() {
 		x += velX;
 		y += velY;
 	}

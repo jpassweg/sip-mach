@@ -4,22 +4,22 @@ public class Shot {
 
 	double x;
 	double y;
-	double speed = 1;
+	double speed = 10;
 	double length = 20;
 	
 	
-	Shot(double x, double y){
+	public Shot(double x, double y){
 		this.x = x;
 		this.y = y;
 	}
 	
-	void draw(Window window) {
+	public void draw(Window window) {
 		window.setColor(255, 0, 0);
-		window.drawImage("graphics/BlueShot.png", x, y - length);
+		window.drawImageCentered("graphics/BlueShot.png", x, y - length);
 		update();
 	}
 	
-	void update() {
+	public void update() {
 		y -= speed;
 	}	
 }

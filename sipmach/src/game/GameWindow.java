@@ -16,18 +16,18 @@ public class GameWindow {
 	public ArrayList<Meteor> meteors;
 	public ArrayList<Shot> shots;
 	
-	int stepcounter = 0; // also score
-	int highscore;
+	private int stepcounter = 0; // also score
+	private int highscore;
 	
-	int screenWidth;
-	int screenHeight;
+	private int screenWidth;
+	private int screenHeight;
 	
-	String meteor = "game.TeaseMeteor";
-	Constructor<?> meteorConstructor;
-	double meteorRate;
-	int maxRad;
+	private String meteor = "game.TeaseMeteor";
+	private Constructor<?> meteorConstructor;
+	private double meteorRate;
+	private int maxRad;
 	
-	Random rand;
+	private Random rand;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -58,7 +58,7 @@ public class GameWindow {
 		rand = new Random();		
 	}
 	
-	int giveMaxRad(Meteor met) {
+	private int giveMaxRad(Meteor met) {
 		try {
 			return ((MayhemMeteor) met).maxRad;
 		} catch (ClassCastException ex) {}
@@ -140,7 +140,7 @@ public class GameWindow {
 		player.move(movement);
 	}
 
-	void handleShots() {
+	private void handleShots() {
 		if (window.wasKeyTyped("space")) {
 			if (player.shotCounter > 0) {
 				shots.add(new Shot(player.x, player.y));
@@ -149,7 +149,7 @@ public class GameWindow {
 		}
 	}
 
-	void draw() {
+	private void draw() {
 		window.setColor(0, 0, 0);
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
 		window.drawImage(backgroundSkin, 0, 0, (double) screenWidth/200.0);
@@ -175,7 +175,7 @@ public class GameWindow {
 		drawStats();
 	}
 
-	void drawBoostCounter() {
+	private void drawBoostCounter() {
 		window.setColor(255, 255, 255);
 		double baseX = window.getWidth() * 0.85;
 		double baseY = window.getHeight() * 0.1;
@@ -190,7 +190,7 @@ public class GameWindow {
 		}
 	}
 
-	void drawStats() {
+	private void drawStats() {
 		window.setColor(255, 255, 255);
 		window.setStrokeWidth(4);
 		window.drawString("Score: " + stepcounter, window.getWidth() * 0.45, window.getHeight() * 0.1);
@@ -198,7 +198,7 @@ public class GameWindow {
 		window.drawString("Available shots: " + player.shotCounter, window.getWidth() * 0.1, window.getHeight() * 0.1);
 	}
 
-	void reset() {
+	private void reset() {
 		stepcounter = 0;
 		meteors.clear();
 		player.reset();

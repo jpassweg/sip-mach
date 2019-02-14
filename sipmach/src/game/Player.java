@@ -18,7 +18,7 @@ public class Player {
 	int boostCounter;
 	int shotCounter;
 
-	Player(int screenWidth, int screenHeight, String imgSource) {
+	public Player(int screenWidth, int screenHeight, String imgSource) {
 		BufferedImage bimg;
 		try {
 			bimg = ImageIO.read(new File(imgSource));
@@ -36,7 +36,7 @@ public class Player {
 		shotCounter = 0;
 	}
 
-	void move() {
+	public void move() {
 		x += speed;
 		if (x < -10) {
 			x = screenWidth + 9;
@@ -45,7 +45,7 @@ public class Player {
 		}
 	}
 
-	void move(int movement) {
+	public void move(int movement) {
 		x += speed;
 		if (x < -10) {
 			x = screenWidth + 9;
@@ -76,7 +76,7 @@ public class Player {
 			shotCounter++;
 	}
 
-	void reset() {
+	public void reset() {
 		x = (screenWidth / 2) + (playerWidth / 2);
 		speed = 0;
 		boostCounter = 5;

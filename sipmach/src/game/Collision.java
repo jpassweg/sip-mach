@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 public class Collision {
 
-	static boolean collides(Player player, ArrayList<Meteor> meteors) {
+	public static boolean collides(Player player, ArrayList<Meteor> meteors) {
 		for(int i = 0; i < meteors.size(); i++) {
-			if(Math.pow((meteors.get(i).x - player.x), 2) + Math.pow((meteors.get(i).y - player.y), 2)
-			   <= Math.pow((player.playerWidth/2 + meteors.get(i).radius), 2)) return true;
+			if(Math.pow((meteors.get(i).x - player.x), 2) + Math.pow((meteors.get(i).y - player.y), 2) <= Math.pow((player.playerWidth/2 + meteors.get(i).radius), 2)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -20,16 +21,17 @@ public class Collision {
 	 * -> only then delete meteor
 	 */
 	
-	static void shotMeteor(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
+	public static void shotMeteor(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
 		for(int i = 0; i < shots.size(); i++) {
 			for(int j = 0; j < meteors.size(); j++) {
 				if(shots.get(i).x < meteors.get(j).x - meteors.get(j).radius) continue;
 				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
-				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
 				if(shots.get(i).y < meteors.get(j).y - meteors.get(j).radius) continue;
-				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + 
-						 Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) 
-						<= Math.pow(meteors.get(j).radius, 2))) continue;
+				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
+				
+				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) <= Math.pow(meteors.get(j).radius, 2))) {
+					continue;
+				}
 
 				shots.remove(i);
 				meteors.remove(j);
@@ -43,16 +45,17 @@ public class Collision {
 	
 	//deletes only meteor -> shot can destroy several meteors
 	
-	static void shotMeteorB(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
+	public static void shotMeteorB(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
 		for(int i = 0; i < shots.size(); i++) {
 			for(int j = 0; j < meteors.size(); j++) {
 				if(shots.get(i).x < meteors.get(j).x - meteors.get(j).radius) continue;
 				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
-				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
 				if(shots.get(i).y < meteors.get(j).y - meteors.get(j).radius) continue;
-				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + 
-					 Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) 
-					<= Math.pow(meteors.get(j).radius, 2))) continue;
+				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
+				
+				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) <= Math.pow(meteors.get(j).radius, 2))) {
+					continue;
+				}
 				meteors.remove(j);
 				j--;
 			}
@@ -62,16 +65,17 @@ public class Collision {
 	
 	//breaks meteor in half -> shot gets deleted
 	
-	static void shotMeteorC(ArrayList<Shot> shots, ArrayList<Meteor> meteors, Window window) {
+	public static void shotMeteorC(ArrayList<Shot> shots, ArrayList<Meteor> meteors, Window window) {
 		for(int i = 0; i < shots.size(); i++) {
 			for(int j = 0; j < meteors.size(); j++) {
 				if(shots.get(i).x < meteors.get(j).x - meteors.get(j).radius) continue;
 				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
-				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
 				if(shots.get(i).y < meteors.get(j).y - meteors.get(j).radius) continue;
-				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + 
-						 Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) 
-						<= Math.pow(meteors.get(j).radius, 2))) continue;
+				if(shots.get(i).y - shots.get(i).length > meteors.get(j).y + meteors.get(j).radius) continue;
+				
+				if(!(Math.pow((shots.get(i).x - meteors.get(j).x), 2) + Math.pow((shots.get(i).y - shots.get(i).length - meteors.get(j).y), 2) <= Math.pow(meteors.get(j).radius, 2))) {
+					continue;
+				}
 
 				meteors.addAll(breakMeteor(meteors.get(j), window));
 				meteors.remove(j);
@@ -83,7 +87,7 @@ public class Collision {
 		}
 	}
 	
-	static ArrayList<Meteor> breakMeteor(Meteor met, Window window){
+	public static ArrayList<Meteor> breakMeteor(Meteor met, Window window){
 		
 		ArrayList<Meteor> m = new ArrayList<Meteor>();
 		m.add(new Meteor((int) window.getWidth(), (int) window.getHeight(), 1));
@@ -106,7 +110,7 @@ public class Collision {
 	
 	//O(n!) :/
 
-	static void meteorCollisions(ArrayList<Meteor> meteors, Window window) {
+	public static void meteorCollisions(ArrayList<Meteor> meteors, Window window) {
 		if (meteors == null) {
 			return;
 		}
@@ -131,7 +135,7 @@ public class Collision {
 		}
 	}
 
-	static Meteor meteorFusion(Meteor met, Meteor other, Window window) {
+	public static Meteor meteorFusion(Meteor met, Meteor other, Window window) {
 		Meteor m = new Meteor((int)window.getWidth(), (int)window.getHeight(), 1);
 		m.x = (met.x + other.x) / 2;
 		m.y = (met.y + other.y)/ 2; 
@@ -139,7 +143,7 @@ public class Collision {
 		return m;
 	}
 	
-	static ArrayList<Meteor> doubleMeteorBreak(Meteor met, Meteor other, Window window){
+	private  static ArrayList<Meteor> doubleMeteorBreak(Meteor met, Meteor other, Window window){
 		ArrayList<Meteor> m = new ArrayList<Meteor>();
 		Meteor oneone = new Meteor((int) window.getWidth(), (int) window.getHeight(), 1);
 		Meteor onetwo = new Meteor((int) window.getWidth(), (int) window.getHeight(), 1);
@@ -155,7 +159,7 @@ public class Collision {
 		return m;
 	}
 	
-	static void giveStats(Meteor oo, Meteor ot, Meteor to, Meteor tt, Meteor met, Meteor other) {
+	private static void giveStats(Meteor oo, Meteor ot, Meteor to, Meteor tt, Meteor met, Meteor other) {
 		oo.x = met.x + met.radius * 3/8;
 		oo.y = met.y;
 		oo.velX = met.velX;
@@ -179,7 +183,5 @@ public class Collision {
 		tt.velX = -other.velX;
 		tt.velY = other.velY;
 		tt.radius = Math.max(other.radius/2, 1);
-	}
-	
-	
+	}	
 }
