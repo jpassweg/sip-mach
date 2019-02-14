@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class DownfallMeteor extends Meteor {
 	public DownfallMeteor(int screenWidth, int screenHeight, double rate) {
-		super(screenWidth, screenHeight, 0.001);
+		super(screenWidth, screenHeight, 0.1);
 		Random rand = new Random();
 		y = - (screenHeight/5);
 		x = rand.nextInt((int) (screenWidth));

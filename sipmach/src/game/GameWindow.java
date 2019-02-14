@@ -37,8 +37,8 @@ public class GameWindow {
 		this.timer = 0;
 		try {
 			Class<?> meteorClass = Class.forName(meteor);
-			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE);
-			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight);
+			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE);
+			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1);
 			meteorRate = instance.rate;
 			System.out.println(meteorRate);
 		} catch (Exception e) {
@@ -63,6 +63,7 @@ public class GameWindow {
 			handleMeteors();
 			handlePlayer();
 			handleShots();
+			
 
 			stepcounter++;
 			window.refreshAndClear(10);
@@ -100,7 +101,7 @@ public class GameWindow {
 				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight));
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NullPointerException e) {
-				meteors.add(new MayhemMeteor(screenWidth, screenHeight));
+				meteors.add(new MayhemMeteor(screenWidth, screenHeight, 1));
 			}
 		}
 	}
@@ -111,6 +112,7 @@ public class GameWindow {
 				highscore = stepcounter;
 			reset();
 		}
+		Collision.shotMeteorB(shots, meteors);
 	}
 
 	void draw() {
