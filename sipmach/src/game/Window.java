@@ -113,11 +113,7 @@ public class Window {
     
     private final JFrame frame;
     private final JPanel panel;
-<<<<<<< HEAD
     private final int pixelScale = (int) 1;
-=======
-    private final int pixelScale = 1;
->>>>>>> branch 'master' of https://github.com/jpassweg/sip-mach.git
     
     private BufferedImage canvas;
     private BufferedImage snapshot;
