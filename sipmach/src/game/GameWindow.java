@@ -57,7 +57,7 @@ public class GameWindow {
 
 			stepcounter++;
 			if (rand.nextInt(50 - Math.min(45, (int) stepcounter / 50)) == 0) {
-				meteors.add(new Meteor(screenWidth, screenHeight));
+				meteors.add(new MayhemMeteor(screenWidth, screenHeight));
 			}
 			if (stepcounter % 500 == 0) {
 				player.addBoost();
