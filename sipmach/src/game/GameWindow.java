@@ -39,6 +39,7 @@ public class GameWindow {
 			// update to new version
 			for (int i = 0; i < meteors.size(); i++) {
 				Meteor curr = meteors.get(i);
+				
 
 				// collisions
 				if (Math.sqrt(Math.pow((curr.x - player.x), 2) + Math.pow((curr.y - player.y), 2)) < curr.size) {
@@ -88,8 +89,9 @@ public class GameWindow {
 		for (int i = 0; i < meteors.size(); i++) {
 			window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).size);
 		}
-		window.setColor(255, 255, 255);
-		window.fillRect(player.x, player.y, 10, 30);
+		//window.setColor(255, 255, 255);
+		//window.fillRect(player.x, player.y, 10, 30);
+		window.drawImageCentered("src/SpaceShip.png", player.x, player.y);
 		drawBoostCounter();
 	}
 
