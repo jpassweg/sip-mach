@@ -55,7 +55,7 @@ public class GameWindow {
 				boostCounter++;
 			}
 			
-			
+			 
 			movement = 0;
 			if(window.isKeyPressed("left")) {
 				movement = -1;
