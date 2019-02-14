@@ -20,24 +20,29 @@ public class GameWindow {
 		window.setResizable(false);
 		window.open();
 		
-		int width = (int) window.getWidth();
 		int movement = 0;
 		while(window.isOpen()) {
+			
+			
+			draw(window, player);
+			
+			
 			for(int i = 0; i < meteors.size(); i++) {
 				meteors.get(i).update();
 			}
-			draw(window, player);
+			movement = 0;
 			if(window.isKeyPressed("left")) {
 				movement = -1;
 			} else if(window.isKeyPressed("right")) {
 				movement = 1;
-			} else {
-				movement = 0;
-			}
-			player.move(movement, width);
-			window.refreshAndClear();
+			} //TODO add down-key to stop moving
+			player.move(movement);
+			
+			
+			window.refreshAndClear(5);
+			
 			stepcounter++;
-			if(rand.nextInt(50 - Math.min(49, (int) stepcounter/50)) == 0) {
+			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
 				meteors.add(new Meteor(window));
 			}
 		}
