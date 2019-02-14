@@ -49,7 +49,7 @@ public class GameWindow {
 			}
 			stepcounter++;
 			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
-				meteors.add(new Meteor(window));
+				meteors.add(new Meteor(screenWidth, screenHeight));
 			}
 			if(stepcounter % 1000 == 0 && boostCounter < 5) {
 				boostCounter++;
