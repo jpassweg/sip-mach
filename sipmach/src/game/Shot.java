@@ -7,6 +7,7 @@ public class Shot {
 	double speed = 0.1;
 	double length = 20;
 	
+	
 	Shot(double x, double y){
 		this.x = x;
 		this.y = y;
@@ -20,7 +21,5 @@ public class Shot {
 	
 	void update() {
 		y -= speed;
-	}
-	
-	
+	}	
 }

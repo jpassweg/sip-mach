@@ -7,6 +7,7 @@ public class GameWindow {
 	Window window;
 	Player player;
 	ArrayList<Meteor> meteors;
+	ArrayList<Shot> shots;
 	Random rand;
 	int stepcounter = 0;
 	int screenWidth;
@@ -17,11 +18,23 @@ public class GameWindow {
 	int score;
 	int highscore;
 
+	int shotCounter;
+	int initialShotAmount = 5;
+	int timer;
+	boolean canShoot;
+	boolean shoot;
+
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
+		shots = new ArrayList<Shot>();
+		shotCounter = initialShotAmount;
+		canShoot = true;
+		shoot = false;
+		this.timer = 0;
+
 		this.score = 0;
 		this.highscore = 0;
 	}
@@ -62,8 +75,13 @@ public class GameWindow {
 			if (rand.nextInt(50 - Math.min(45, (int) stepcounter / 50)) == 0) {
 				meteors.add(new MayhemMeteor(screenWidth, screenHeight));
 			}
+
+			// Handle Boosts
 			if (stepcounter % 500 == 0) {
 				player.addBoost();
+				if (shotCounter < 5) {
+					shotCounter++;
+				}
 			}
 
 			if (window.wasKeyTyped("left")) {
@@ -72,15 +90,26 @@ public class GameWindow {
 				movement = 1;
 			}
 
-			player.move(movement);
-			movement = 0;
-			// Collision.meteorCollisions(meteors, window);
-			score++;
-			drawStats();
+			// Handle shots
+			if (window.wasKeyTyped("space")) {
+				shoot = true;
+			}
+			handleShots(shoot);
+			
 
-			// refresh
-			window.refreshAndClear(5);
-		}
+			
+
+		player.move(movement);
+		movement = 0;
+		shoot = false;
+		// TODO: Meteor collisions? maybe not in O(n!)
+		// Collision.meteorCollisions(meteors, window);
+		score++;
+		drawStats();
+
+		// refresh
+		window.refreshAndClear(5);
+	}
 	}
 
 	void draw() {
@@ -89,6 +118,14 @@ public class GameWindow {
 		window.setColor(139, 69, 19);
 		for (int i = 0; i < meteors.size(); i++) {
 			window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
+		}
+
+		for (int i = 0; i < shots.size(); i++) {
+			shots.get(i).draw(window);
+			shots.get(i).update();
+			if (shots.get(i).y < 0) {
+				shots.remove(i);
+			}
 		}
 		// window.setColor(255, 255, 255);
 		// window.fillRect(player.x, player.y, 10, 30);
@@ -117,12 +154,41 @@ public class GameWindow {
 		window.setStrokeWidth(4);
 		window.drawString("Score: " + score, window.getWidth() * 0.45, window.getHeight() * 0.1);
 		window.drawString("Highscore: " + highscore, window.getWidth() * 0.45, window.getHeight() * 0.11);
+		window.drawString("Available shots: " + shotCounter, window.getWidth() * 0.1, window.getHeight() * 0.1);
 	}
 
 	void reset() {
 		score = 0;
 		meteors.clear();
 		player.reset();
+		resetShots();
+		}
+		
+	void resetShots() {
+		shots.clear();
+		shotCounter = initialShotAmount;
+		timer = 0;
+		shoot = false;
+	}
+	
+	void handleShots(boolean shoot) {
+		if (shoot) {
+			if (shotCounter > 0) {
+				shots.add(new Shot(player.x, player.y));
+				shotCounter--;
+				canShoot = false;
+			} else {
+				shoot = false;
+			}
+		} 
+	
+		if (canShoot = false) {
+			timer++;
+		}
+		if (timer >= 100) {
+			canShoot = true;
+			timer = 0;
+		}
 	}
 
 }
