@@ -3,11 +3,8 @@ package game;
 import java.util.Random;
 
 public class DownfallMeteor extends Meteor {
-
-	double rate = 0.001;
-	
-	public DownfallMeteor(int screenWidth, int screenHeight) {
-		super(screenWidth, screenHeight);
+	public DownfallMeteor(int screenWidth, int screenHeight, double rate) {
+		super(screenWidth, screenHeight, 0.001);
 		Random rand = new Random();
 		y = - (screenHeight/5);
 		x = rand.nextInt((int) (screenWidth));

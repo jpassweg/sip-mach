@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class MayhemMeteor extends Meteor {
 
-	public MayhemMeteor(int screenWidth, int screenHeight) {
-		super(screenWidth, screenHeight);
+	public MayhemMeteor(int screenWidth, int screenHeight, double rate) {
+		super(screenWidth, screenHeight, 1.0);
 		Random rand = new Random();
 		y = - (screenHeight/5);
 		x = rand.nextInt((int) (screenWidth));

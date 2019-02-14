@@ -10,7 +10,9 @@ public class Meteor {
 	
 	double rate = 1;
 	
-	public Meteor(int screenWidth, int screenHeight) {}
+	public Meteor(int screenWidth, int screenHeight, double rate) {
+		this.rate = rate;
+	}
 	
 	void update() {
 		x += velX;
