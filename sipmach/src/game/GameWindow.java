@@ -135,6 +135,7 @@ public class GameWindow {
 	void draw() {
 		window.setColor(0, 0, 0);
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
+		window.drawImage("src/background1.png", 0, 0, (double) screenWidth/200.0);
 		window.setColor(139, 69, 19);
 		for (int i = 0; i < meteors.size(); i++) {
 			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, 1.0/(maxRad) * meteors.get(i).radius);
