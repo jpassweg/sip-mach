@@ -4,7 +4,7 @@ public class Shot {
 
 	double x;
 	double y;
-	double speed = 0.1;
+	double speed = 1;
 	double length = 20;
 	
 	

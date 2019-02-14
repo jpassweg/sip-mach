@@ -4,8 +4,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.ClassCastException;
 
 public class GameWindow {
+	
+	String spaceshipSkin = "src/RoundSpaceShip.png";
+	String meteorSkin = "src/SwissCheeseMeteor.png";
+	
 	private Window window;
 	private Player player;
 	public ArrayList<Meteor> meteors;
@@ -25,6 +30,8 @@ public class GameWindow {
 	int timer;
 	boolean canShoot;
 	boolean shoot;
+	
+	int maxRad;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -40,7 +47,7 @@ public class GameWindow {
 			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE);
 			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1);
 			meteorRate = instance.rate;
-			System.out.println(meteorRate);
+			maxRad = giveMaxRad(instance);
 		} catch (Exception e) {
 			e.printStackTrace();
 			meteorRate = 1;
@@ -53,6 +60,16 @@ public class GameWindow {
 		rand = new Random();
 		window.setResizable(false);
 		window.open();
+	}
+	
+	int giveMaxRad(Meteor met) {
+		try {
+			return ((MayhemMeteor) met).maxRad;
+		} catch (ClassCastException ex) {}
+		try {
+			return ((DownfallMeteor) met).maxRad;
+		} catch (ClassCastException ex) {}
+		return 1;
 	}
 
 	public void run() {
@@ -112,7 +129,7 @@ public class GameWindow {
 				highscore = stepcounter;
 			reset();
 		}
-		Collision.shotMeteor(shots, meteors);
+		Collision.shotMeteorB(shots, meteors);
 	}
 
 	void draw() {
@@ -120,8 +137,7 @@ public class GameWindow {
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
 		window.setColor(139, 69, 19);
 		for (int i = 0; i < meteors.size(); i++) {
-			//window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
-			window.drawImage("src/AmericanFlagMeteor.png", meteors.get(i).x, meteors.get(i).y, 1.0/ 50 * meteors.get(i).radius);
+			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, 1.0/(maxRad) * meteors.get(i).radius);
 		}
 
 		for (int i = 0; i < shots.size(); i++) {
@@ -131,10 +147,7 @@ public class GameWindow {
 				shots.remove(i);
 			}
 		}
-		// window.setColor(255, 255, 255);
-		// window.fillRect(player.x, player.y, 10, 30);
-		window.drawImageCentered("src/RoundSpaceShip.png", player.x, player.y);
-		window.drawImageCentered(imagePath, player.x, player.y);
+		window.drawImageCentered(spaceshipSkin, player.x, player.y);
 		drawBoostCounter();
 		drawStats();
 	}
@@ -176,7 +189,6 @@ public class GameWindow {
 	}
 
 	void handleShots() {
-		// Handle shots
 		if (window.wasKeyTyped("space")) {
 			shoot = true;
 		}
