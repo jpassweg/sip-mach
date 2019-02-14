@@ -11,6 +11,87 @@ public class Collision {
 		}
 		return false;
 	}
+	
+	
+	//deletes shot and meteor
+	
+	static void shotMeteor(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
+		for(int i = 0; i < shots.size(); i++) {
+			for(int j = 0; j < meteors.size(); j++) {
+				if(shots.get(i).x < meteors.get(j).x - meteors.get(j).radius) continue;
+				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
+				if(shots.get(i).y > meteors.get(j).y + meteors.get(j).radius) continue;
+				if(shots.get(i).y + shots.get(i).length < meteors.get(j).y - meteors.get(j).radius) continue;
+
+				shots.remove(i);
+				meteors.remove(j);
+				i--;
+				j--;
+				break;
+			}
+		}
+	}
+	
+	
+	//deletes only meteor -> shot can destroy several meteors
+	
+	static void shotMeteorB(ArrayList<Shot> shots, ArrayList<Meteor> meteors) {
+		for(int i = 0; i < shots.size(); i++) {
+			for(int j = 0; j < meteors.size(); j++) {
+				if(shots.get(i).x < meteors.get(j).x - meteors.get(j).radius) continue;
+				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
+				if(shots.get(i).y > meteors.get(j).y + meteors.get(j).radius) continue;
+				if(shots.get(i).y + shots.get(i).length < meteors.get(j).y - meteors.get(j).radius) continue;
+			
+				meteors.remove(j);
+				j--;
+			}
+		}
+	}
+	
+	
+	//breaks meteor in half -> shot gets deleted
+	
+	static void shotMeteorC(ArrayList<Shot> shots, ArrayList<Meteor> meteors, Window window) {
+		for(int i = 0; i < shots.size(); i++) {
+			for(int j = 0; j < meteors.size(); j++) {
+				if(shots.get(i).x < meteors.get(j).x - meteors.get(j).radius) continue;
+				if(shots.get(i).x > meteors.get(j).x + meteors.get(j).radius) continue;
+				if(shots.get(i).y > meteors.get(j).y + meteors.get(j).radius) continue;
+				if(shots.get(i).y + shots.get(i).length < meteors.get(j).y - meteors.get(j).radius) continue;
+			
+				meteors.addAll(breakMeteor(meteors.get(j), window));
+				meteors.remove(j);
+				shots.remove(i);
+				i--;
+				j--;
+				
+			}
+		}
+	}
+	
+	static ArrayList<Meteor> breakMeteor(Meteor met, Window window){
+		
+		ArrayList<Meteor> m = new ArrayList<Meteor>();
+		m.add(new Meteor((int) window.getWidth(), (int) window.getHeight()));
+		m.add(new Meteor((int) window.getWidth(), (int) window.getHeight()));
+		
+		m.get(0).radius = met.radius * 3/8;
+		m.get(0).x = met.x + met.radius;
+		m.get(0).y = met.y;
+		m.get(0).velX = met.velX * 1.5;
+		m.get(0).velY = met.velY;
+		
+		m.get(1).radius = met.radius * 3/8;
+		m.get(1).x = met.x - met.radius;
+		m.get(1).y = met.y;
+		m.get(1).velX = met.velX * 0.5;
+		m.get(1).velY = met.velY;
+		
+		return m;
+	}
+	
+	//O(n!) :/
 
 	static void meteorCollisions(ArrayList<Meteor> meteors, Window window) {
 		if (meteors == null) {
@@ -28,7 +109,7 @@ public class Collision {
 				double d = Math.sqrt(Math.pow((met.x - meteors.get(i).x), 2) + Math.pow((met.y - meteors.get(i).y), 2));
 				if (d < met.radius + meteors.get(i).radius) {
 					//meteors.add(meteorFusion(met, meteors.get(i), window));
-					meteors.addAll(meteorBreak(met, meteors.get(i), window));
+					meteors.addAll(doubleMeteorBreak(met, meteors.get(i), window));
 					meteors.remove(met);
 					meteors.remove(i-1);
 					break;
@@ -45,7 +126,7 @@ public class Collision {
 		return m;
 	}
 	
-	static ArrayList<Meteor> meteorBreak(Meteor met, Meteor other, Window window){
+	static ArrayList<Meteor> doubleMeteorBreak(Meteor met, Meteor other, Window window){
 		ArrayList<Meteor> m = new ArrayList<Meteor>();
 		Meteor oneone = new Meteor((int) window.getWidth(), (int) window.getHeight());
 		Meteor onetwo = new Meteor((int) window.getWidth(), (int) window.getHeight());
