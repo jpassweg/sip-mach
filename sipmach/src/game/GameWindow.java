@@ -91,7 +91,7 @@ public class GameWindow {
 		}
 		//window.setColor(255, 255, 255);
 		//window.fillRect(player.x, player.y, 10, 30);
-		window.drawImageCentered("src/SpaceShip.png", player.x, player.y);
+		window.drawImageCentered("src/RoundSpaceShip.png", player.x, player.y);
 		drawBoostCounter();
 	}
 
