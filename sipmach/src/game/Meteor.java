@@ -4,7 +4,7 @@ public class Meteor {
 
 	double x = 0;
 	double y = 0;
-	int size = 0;
+	int radius = 0;
 	double velX = 0;
 	double velY = 0;
 	

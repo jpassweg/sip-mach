@@ -88,7 +88,7 @@ public class GameWindow {
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
 		window.setColor(139, 69, 19);
 		for (int i = 0; i < meteors.size(); i++) {
-			window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).size);
+			window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
 		}
 		// window.setColor(255, 255, 255);
 		// window.fillRect(player.x, player.y, 10, 30);
