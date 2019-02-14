@@ -13,17 +13,11 @@ public class Player {
 	int screenWidth;
 	double speed;
 	double acc = 1;
-	int playerWidth = 10;
-	int playerHeight = 10;
+	int playerWidth = 20;
+	int playerHeight = 20;
 	int boostCounter;
 
 	Player(int screenWidth, int screenHeight, String imgSource) {
-		this.screenWidth = screenWidth;
-		x = (screenWidth / 2) + (playerWidth / 2);
-		y = (int) (screenHeight * 0.8);
-		speed = 0;
-		boostCounter = 5;
-
 		BufferedImage bimg;
 		try {
 			bimg = ImageIO.read(new File(imgSource));
@@ -32,7 +26,12 @@ public class Player {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		this.screenWidth = screenWidth;
+		x = (screenWidth / 2) + (playerWidth / 2);
+		y = (int) (screenHeight * 0.8);
+		speed = 0;
+		boostCounter = 5;
 	}
 
 	void move() {
