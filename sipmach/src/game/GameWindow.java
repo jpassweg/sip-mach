@@ -1,45 +1,57 @@
 package game;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
+
+import java.util.ListIterator;
 
 public class GameWindow {
 	Window window;
-	ArrayList<Meteor> meteors = new ArrayList<Meteor>();
+	Player player;
+	LinkedList<Meteor> meteors;
 	Random rand;
 	int stepcounter = 0;
 	
 	public GameWindow(int screenWidth, int screenHeight) {
 		window = new Window("SPI-MACH", screenWidth, screenHeight);
-		meteors = new ArrayList<Meteor>();
+		meteors = new LinkedList<Meteor>();
 	}
 	
 	public void run() {
-		Player player = new Player((int) window.getWidth(), (int) window.getHeight());
+		player = new Player((int) window.getWidth(), (int) window.getHeight());
 		rand = new Random();
 		window.setResizable(false);
 		window.open();
 		
 		int movement = 0;
+		ListIterator<Meteor> meteorsIter = meteors.listIterator();
+		 
 		while(window.isOpen()) {
 			
 			
-			draw(window, player);
+			draw();
+			
+			meteorsIter = meteors.listIterator();
+			while(meteorsIter.hasNext()) {
+				meteorsIter.next().update();
+			}
 			
 			
+			/*
 			for(int i = 0; i < meteors.size(); i++) {
 				meteors.get(i).update();
 			}
+			*/
 			movement = 0;
 			if(window.isKeyPressed("left")) {
 				movement = -1;
 			} else if(window.isKeyPressed("right")) {
 				movement = 1;
-			} //TODO add down-key to stop moving
+			} //add down-key to stop moving
 			player.move(movement);
 			
 			
-			window.refreshAndClear(5);
+			window.refreshAndClear();
 			
 			stepcounter++;
 			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
@@ -48,7 +60,7 @@ public class GameWindow {
 		}
 	}
 	
-	void draw(Window window, Player player) {
+	void draw() {
 		window.setColor(0,0,0);
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
 		window.setColor(139,69,19);
