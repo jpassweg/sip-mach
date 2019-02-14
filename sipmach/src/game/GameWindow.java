@@ -27,7 +27,7 @@ public class GameWindow {
 	}
 
 	public void run() {
-		player = new Player(screenWidth, screenHeight);
+		player = new Player(screenWidth, screenHeight, imagePath);
 		rand = new Random();
 		window.setResizable(false);
 		window.open();
