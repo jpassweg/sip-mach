@@ -33,15 +33,24 @@ public class GameWindow {
 			draw();
 			
 			
-			
 			for(int i = 0; i < meteors.size(); i++) {
 				Meteor curr = meteors.get(i);
+				if(Math.sqrt((curr.x - player.x)^2 + (curr.y - player.y)^2) < curr.size) {
+					System.out.println("collision");
+				}
+				
 				if(curr.y > screenHeight) {
 					meteors.remove(curr);
 				} else {
 					curr.update();
 				}
 			}
+			stepcounter++;
+			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
+				meteors.add(new Meteor(window));
+			}
+			
+			
 			movement = 0;
 			if(window.isKeyPressed("left")) {
 				movement = -1;
@@ -53,10 +62,7 @@ public class GameWindow {
 			
 			window.refreshAndClear();
 			
-			stepcounter++;
-			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
-				meteors.add(new Meteor(window));
-			}
+			
 		}
 	}
 

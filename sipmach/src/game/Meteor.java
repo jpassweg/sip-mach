@@ -24,4 +24,6 @@ public class Meteor {
 		x += velX;
 		y += velY;
 	}
+	
+	//hello
 }
