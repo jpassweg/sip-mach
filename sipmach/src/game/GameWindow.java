@@ -12,6 +12,7 @@ public class GameWindow {
 	int screenWidth;
 	int screenHeight;
 	String direction;
+	String imagePath = "src/alien_spaceshi.png";
 	
 	int score;
 	int highscore;
@@ -91,7 +92,7 @@ public class GameWindow {
 		}
 		//window.setColor(255, 255, 255);
 		//window.fillRect(player.x, player.y, 10, 30);
-		window.drawImageCentered("src/RoundSpaceShip.png", player.x, player.y);
+		window.drawImageCentered(imagePath, player.x, player.y);
 		drawBoostCounter();
 	}
 
