@@ -43,7 +43,7 @@ public class GameWindow {
 					meteors.remove(curr);
 				} else {
 					curr.update();
-				}
+				} 
 			}
 			stepcounter++;
 			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
