@@ -8,14 +8,14 @@ public class Player {
 	double speed;
 	double acc = 0.1;
 	int playerWidth = 10;
-	int boostCounter;
+
 	
 	Player(int screenWidth, int screenHeight){
 		this.screenWidth = screenWidth;
 		x = (screenWidth / 2) + (playerWidth / 2);
 		y = (int) (screenHeight * 0.8);
 		speed = 0;
-		this.boostCounter = 5;
+		
 	}
 	
 	
@@ -37,9 +37,18 @@ public class Player {
 		speed += acc * movement;
 	}
 	
-	void drawBoostCounter(Window window) {
+	void drawBoostCounter(Window window, int boostCounter) {
 		window.setColor(255,255,255);
-		window.drawRect(window.getWidth()*0.9, window.getHeight()*0.1, window.getWidth()*0.98, window.getHeight()*0.02);
-		
+		double baseX = window.getWidth()*0.85;
+		double baseY = window.getHeight()*0.1;
+		double lenY = window.getHeight()*0.02;
+		double lenX = window.getWidth()*0.1 / 5.5;
+		double dis = window.getWidth()*0.001;
+		window.drawRect(baseX, baseY, window.getWidth()*0.097, lenY);
+		window.setColor(255,0,0);
+		for(int i = 0; i < boostCounter; i++) {
+			window.fillRect(baseX + lenX* 4 + dis * 5 - lenX * i  - dis * i, baseY + 0.25, lenX, lenY-0.25);
+			
+		}
 	}
 }
