@@ -11,19 +11,13 @@ public class GameWindow {
 	int stepcounter = 0;
 	int screenWidth;
 	int screenHeight;
-	int boostCounter;
-	int timeSteps;
-	boolean movable;
+	String direction;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
-		
-		boostCounter = 5;
-		timeSteps = 0;
-		movable = true;
 	}
 
 	public void run() {
@@ -35,54 +29,43 @@ public class GameWindow {
 		int movement = 0;
 
 		while (window.isOpen()) {
-			//put old version on canvas
+			// put old version on canvas
 			draw();
-			//update to new version
+			// update to new version
 			for (int i = 0; i < meteors.size(); i++) {
 				Meteor curr = meteors.get(i);
-				
-				//collisions
+
+				// collisions
 				if (Math.sqrt(Math.pow((curr.x - player.x), 2) + Math.pow((curr.y - player.y), 2)) < curr.size) {
 					System.out.println("collision: (" + curr.x + "," + curr.y + ") - " + curr.size);
 				}
 
-				//update of remove if out of screen
+				// update of remove if out of screen
 				if (curr.y > screenHeight) {
 					meteors.remove(curr);
 				} else {
 					curr.update();
 				}
 			}
-			
+
 			stepcounter++;
 			if (rand.nextInt(50 - Math.min(45, (int) stepcounter / 50)) == 0) {
 				meteors.add(new Meteor(screenWidth, screenHeight));
 			}
-			if (stepcounter % 500 == 0 && boostCounter < 5) {
-				boostCounter++;
+			if (stepcounter % 500 == 0) {
+				player.addBoost();
 			}
 
-			timeSteps++;
-			if (timeSteps >= 200) {
-				timeSteps = 0;
-				movable = true;
+			if (window.wasKeyTyped("left")) {
+				movement = -1;
+			} else if (window.wasKeyTyped("right")) {
+				movement = 1;
 			}
 
-			movement = 0;
-			if (movable) {
-				if (window.isKeyPressed("left")) {
-					movement = -1;
-					boostCounter--;
-					movable = false;
-				} else if (window.isKeyPressed("right")) {
-					movement = 1;
-					boostCounter--;
-					movable = false;
-				}
-			}
 			player.move(movement);
+			movement = 0;
 
-			//refresh
+			// refresh
 			window.refreshAndClear(5);
 		}
 	}
@@ -96,7 +79,22 @@ public class GameWindow {
 		}
 		window.setColor(255, 255, 255);
 		window.fillRect(player.x, player.y, 10, 30);
-		player.drawBoostCounter(window, boostCounter);
+		drawBoostCounter();
+	}
+
+	void drawBoostCounter() {
+		window.setColor(255, 255, 255);
+		double baseX = window.getWidth() * 0.85;
+		double baseY = window.getHeight() * 0.1;
+		double lenY = window.getHeight() * 0.02;
+		double lenX = window.getWidth() * 0.1 / 5.5;
+		double dis = window.getWidth() * 0.001;
+		window.drawRect(baseX, baseY, window.getWidth() * 0.097, lenY);
+		window.setColor(255, 0, 0);
+		for (int i = 0; i < player.boostCounter; i++) {
+			window.fillRect(baseX + lenX * 4 + dis * 5 - lenX * i - dis * i, baseY + 0.25, lenX, lenY - 0.25);
+
+		}
 	}
 
 }

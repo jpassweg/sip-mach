@@ -6,9 +6,10 @@ public class Player {
 	int y = 200;
 	int screenWidth;
 	double speed;
-	double acc = 0.5;
+	double acc = 1;
 	int playerWidth = 10;
 	int plyerHeight = 10;
+	int boostCounter;
 
 	
 	Player(int screenWidth, int screenHeight){
@@ -16,44 +17,42 @@ public class Player {
 		x = (screenWidth / 2) + (playerWidth / 2);
 		y = (int) (screenHeight * 0.8);
 		speed = 0;
-		
+		boostCounter = 5;
 	}
 	
-	
+	void move() {
+		x += speed;
+		if(x < -10) {
+			x = screenWidth + 9;
+		} else if( x > screenWidth + 10) {
+			x = -9;
+		}
+	}
 	void move(int movement) {
 		x += speed;
 		if(x < -10) {
-			x = (int) screenWidth + 10;
+			x = screenWidth + 9;
 		} else if( x > screenWidth + 10) {
-			x = -10;
+			x = -9;
 		}
-		if(Math.abs(speed) >= 4) {
-			if(speed < 0) {
-				speed = -3.5;
+		if(movement != 0 && boostCounter > 0) {
+			boostCounter--;
+			if(Math.abs(speed) <= 4) {
+				speed += acc * movement;
 			} else {
-				speed = 3.5;
+				if(speed < 0) {
+					speed = -3.5;
+				} else {
+					speed = 3.5;
+				}
 			}
 		}
-		speed += acc * movement;
+		
+	}
+
+
+	public void addBoost() {
+		if(boostCounter < 5) boostCounter++;
 	}
 	
-	//not currently used
-	void setAcceleration(int movement) {
-		speed += acc * movement;
-	}
-	
-	void drawBoostCounter(Window window, int boostCounter) {
-		window.setColor(255,255,255);
-		double baseX = window.getWidth()*0.85;
-		double baseY = window.getHeight()*0.1;
-		double lenY = window.getHeight()*0.02;
-		double lenX = window.getWidth()*0.1 / 5.5;
-		double dis = window.getWidth()*0.001;
-		window.drawRect(baseX, baseY, window.getWidth()*0.097, lenY);
-		window.setColor(255,0,0);
-		for(int i = 0; i < boostCounter; i++) {
-			window.fillRect(baseX + lenX* 4 + dis * 5 - lenX * i  - dis * i, baseY + 0.25, lenX, lenY-0.25);
-			
-		}
-	}
 }
