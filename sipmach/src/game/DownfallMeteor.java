@@ -12,7 +12,7 @@ public class DownfallMeteor extends Meteor {
 		y = - (screenHeight/5);
 		x = rand.nextInt((int) (screenWidth));
 		
-		size = rand.nextInt(48) + 15;
+		radius = rand.nextInt(48) + 15;
 		
 		velY = ((double) (rand.nextInt(10) + 1)) / 10;
 	}
