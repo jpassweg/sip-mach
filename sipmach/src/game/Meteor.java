@@ -17,15 +17,8 @@ public class Meteor {
 		this.x = rand.nextInt((int) (screenWidth));
 		this.size = rand.nextInt(18) + 4;
 		
-		
-		this.velX = (rand.nextInt(21) - 10) / 10;
-		if(velX < 0) {
-			velX += 1;
-		} else {
-			velX -= 1;
-		}
 		this.velY = ((double) (rand.nextInt(10) + 1)) / 10;
-		
+		this.velX = (rand.nextDouble() * (2*velY/0.6)) - (velY/0.6);
 	}
 	
 	
