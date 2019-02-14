@@ -22,7 +22,7 @@ public class GameWindow {
 	int screenWidth;
 	int screenHeight;
 	
-	String meteor = "game.DownfallMeteor";
+	String meteor = "game.TeaseMeteor";
 	Constructor<?> meteorConstructor;
 	double meteorRate;
 	int maxRad;
@@ -61,6 +61,9 @@ public class GameWindow {
 	int giveMaxRad(Meteor met) {
 		try {
 			return ((MayhemMeteor) met).maxRad;
+		} catch (ClassCastException ex) {}
+		try {
+			return ((TeaseMeteor) met).maxRad;
 		} catch (ClassCastException ex) {}
 		try {
 			return ((DownfallMeteor) met).maxRad;
@@ -103,8 +106,19 @@ public class GameWindow {
 
 		if (rand.nextDouble() < meteorRate / 5.0) {
 			try {
-				meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1));
+				switch (meteor) {
+				case "game.TeaseMeteor":
+					Class<?> meteorClass = Class.forName(meteor);
+					meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, Integer.TYPE);
+					meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1, player.x - (player.playerWidth/2), 5));
+					break;
+				default:
+					meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1));
+					break;
+				}
+				
 			} catch (Exception e) {
+				e.printStackTrace();
 				meteors.add(new MayhemMeteor(screenWidth, screenHeight, 1));
 			}
 		}
@@ -142,7 +156,9 @@ public class GameWindow {
 		window.setColor(139, 69, 19);
 		
 		for (int i = 0; i < meteors.size(); i++) {
+			//TODO better image scaling
 			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, 1.0/(maxRad) * meteors.get(i).radius);
+			//window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
 		}
 
 		for (int i = 0; i < shots.size(); i++) {
