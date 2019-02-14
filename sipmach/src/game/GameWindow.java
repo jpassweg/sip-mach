@@ -35,8 +35,8 @@ public class GameWindow {
 			
 			for(int i = 0; i < meteors.size(); i++) {
 				Meteor curr = meteors.get(i);
-				if(Math.sqrt((curr.x - player.x)^2 + (curr.y - player.y)^2) < curr.size) {
-					System.out.println("collision");
+				if(Math.sqrt(Math.pow((curr.x - player.x),2) + Math.pow((curr.y - player.y),2)) < curr.size) {
+					System.out.println("collision: (" + curr.x + "," + curr.y + ") - " + curr.size);
 				}
 				
 				if(curr.y > screenHeight) {
