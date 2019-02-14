@@ -5,10 +5,9 @@ import java.util.ArrayList;
 public class Collision {
 
 	static boolean collides(Player player, ArrayList<Meteor> meteors) {
-		for (int i = 0; i < meteors.size(); i++) {
-			if (meteors.get(i).y + meteors.get(i).size >= player.y ) {//- player.height) { // low enough for collision?
-
-			}
+		for(int i = 0; i < meteors.size(); i++) {
+			if(Math.pow((meteors.get(i).x - player.x), 2) + Math.pow((meteors.get(i).y - player.y), 2)
+			   <= Math.pow((player.playerWidth + meteors.get(i).size), 2)) return true;
 		}
 		return false;
 	}
@@ -87,4 +86,6 @@ public class Collision {
 		tt.velY = other.velY;
 		tt.size = Math.max(other.size/2, 1);
 	}
+	
+	
 }

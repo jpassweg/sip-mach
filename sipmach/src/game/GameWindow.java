@@ -12,7 +12,8 @@ public class GameWindow {
 	int screenWidth;
 	int screenHeight;
 	String direction;
-	
+	String imagePath = "src/alien_spaceshi.png";
+
 	int score;
 	int highscore;
 
@@ -24,7 +25,7 @@ public class GameWindow {
 		this.score = 0;
 		this.highscore = 0;
 	}
-	
+
 	public void run() {
 		player = new Player(screenWidth, screenHeight);
 		rand = new Random();
@@ -37,23 +38,24 @@ public class GameWindow {
 			// put old version on canvas
 			draw();
 			// update to new version
+
+			// collisions
+			if (Collision.collides(player, meteors)) {
+				// System.out.println("collision: (" + curr.x + "," + curr.y + ") - " +
+				// curr.size);
+				if (score > highscore)
+					highscore = score;
+				reset();
+			}
+
+			// update of remove if out of screen
 			for (int i = 0; i < meteors.size(); i++) {
-				Meteor curr = meteors.get(i);
-				
-
-				// collisions
-				if (Math.sqrt(Math.pow((curr.x - player.x), 2) + Math.pow((curr.y - player.y), 2)) < curr.size) {
-					//System.out.println("collision: (" + curr.x + "," + curr.y + ") - " + curr.size);
-					if(score > highscore) highscore = score;
-					reset();
-				}
-
-				// update of remove if out of screen
-				if (curr.y > screenHeight) {
-					meteors.remove(curr);
+				if (meteors.get(i).y > screenHeight) {
+					meteors.remove(i);
 				} else {
-					curr.update();
+					meteors.get(i).update();
 				}
+
 			}
 
 			stepcounter++;
@@ -72,10 +74,9 @@ public class GameWindow {
 
 			player.move(movement);
 			movement = 0;
-			//Collision.meteorCollisions(meteors, window);
+			// Collision.meteorCollisions(meteors, window);
 			score++;
 			drawStats();
-			
 
 			// refresh
 			window.refreshAndClear(5);
@@ -89,9 +90,10 @@ public class GameWindow {
 		for (int i = 0; i < meteors.size(); i++) {
 			window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).size);
 		}
-		//window.setColor(255, 255, 255);
-		//window.fillRect(player.x, player.y, 10, 30);
+		// window.setColor(255, 255, 255);
+		// window.fillRect(player.x, player.y, 10, 30);
 		window.drawImageCentered("src/RoundSpaceShip.png", player.x, player.y);
+		window.drawImageCentered(imagePath, player.x, player.y);
 		drawBoostCounter();
 	}
 
@@ -109,14 +111,14 @@ public class GameWindow {
 
 		}
 	}
-	
+
 	void drawStats() {
 		window.setColor(255, 255, 255);
 		window.setStrokeWidth(4);
-		window.drawString("Score: " + score, window.getWidth() * 0.45, window.getHeight()*0.1);
-		window.drawString("Highscore: " + highscore, window.getWidth()* 0.45, window.getHeight()*0.11);
+		window.drawString("Score: " + score, window.getWidth() * 0.45, window.getHeight() * 0.1);
+		window.drawString("Highscore: " + highscore, window.getWidth() * 0.45, window.getHeight() * 0.11);
 	}
-	
+
 	void reset() {
 		score = 0;
 		meteors.clear();
