@@ -7,7 +7,7 @@ public class Collision {
 	static boolean collides(Player player, ArrayList<Meteor> meteors) {
 		for(int i = 0; i < meteors.size(); i++) {
 			if(Math.pow((meteors.get(i).x - player.x), 2) + Math.pow((meteors.get(i).y - player.y), 2)
-			   <= Math.pow((player.playerWidth + meteors.get(i).size), 2)) return true;
+			   <= Math.pow((player.playerWidth/2 + meteors.get(i).size), 2)) return true;
 		}
 		return false;
 	}
