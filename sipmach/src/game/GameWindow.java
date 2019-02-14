@@ -1,47 +1,47 @@
 package game;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Random;
-
-import java.util.ListIterator;
 
 public class GameWindow {
 	Window window;
 	Player player;
-	LinkedList<Meteor> meteors;
+	ArrayList<Meteor> meteors;
 	Random rand;
 	int stepcounter = 0;
+	int screenWidth;
+	int screenHeight;
 	
 	public GameWindow(int screenWidth, int screenHeight) {
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		window = new Window("SPI-MACH", screenWidth, screenHeight);
-		meteors = new LinkedList<Meteor>();
+		meteors = new ArrayList<Meteor>();
 	}
 	
 	public void run() {
-		player = new Player((int) window.getWidth(), (int) window.getHeight());
+		player = new Player(screenWidth, screenHeight);
 		rand = new Random();
 		window.setResizable(false);
 		window.open();
 		
 		int movement = 0;
-		ListIterator<Meteor> meteorsIter = meteors.listIterator();
 		 
 		while(window.isOpen()) {
 			
 			
 			draw();
 			
-			meteorsIter = meteors.listIterator();
-			while(meteorsIter.hasNext()) {
-				meteorsIter.next().update();
-			}
 			
 			
-			/*
 			for(int i = 0; i < meteors.size(); i++) {
-				meteors.get(i).update();
+				Meteor curr = meteors.get(i);
+				if(curr.y > screenHeight) {
+					meteors.remove(curr);
+				} else {
+					curr.update();
+				}
 			}
-			*/
 			movement = 0;
 			if(window.isKeyPressed("left")) {
 				movement = -1;
@@ -59,7 +59,7 @@ public class GameWindow {
 			}
 		}
 	}
-	
+
 	void draw() {
 		window.setColor(0,0,0);
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
