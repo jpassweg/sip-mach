@@ -15,7 +15,7 @@ public class Shot {
 	
 	void draw(Window window) {
 		window.setColor(255, 0, 0);
-		window.drawLine(x, y, x, y - length);
+		window.drawImage("graphics/BlueShot.png", x, y - length);
 		update();
 	}
 	

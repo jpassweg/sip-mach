@@ -8,8 +8,8 @@ import java.lang.ClassCastException;
 
 public class GameWindow {
 	
-	String spaceshipSkin = "src/RoundSpaceShip.png";
-	String meteorSkin = "src/SwissCheeseMeteor.png";
+	String spaceshipSkin = "graphics/RoundSpaceShip.png";
+	String meteorSkin = "graphics/SwissCheeseMeteor.png";
 	
 	private Window window;
 	private Player player;
@@ -20,7 +20,7 @@ public class GameWindow {
 	int screenWidth;
 	int screenHeight;
 	String direction;
-	String imagePath = "src/alien_spaceshi.png";
+	String imagePath = "graphics/alien_spaceshi.png";
 	String meteor = "game.DownfallMeteor";
 	Constructor<?> meteorConstructor;
 	double meteorRate;
@@ -128,7 +128,7 @@ public class GameWindow {
 	void draw() {
 		window.setColor(0, 0, 0);
 		window.fillRect(0, 0, window.getWidth(), window.getHeight());
-		window.drawImage("src/background1.png", 0, 0, (double) screenWidth/200.0);
+		window.drawImage("graphics/background1.png", 0, 0, (double) screenWidth/200.0);
 		window.setColor(139, 69, 19);
 		for (int i = 0; i < meteors.size(); i++) {
 			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, 1.0/(maxRad) * meteors.get(i).radius);
