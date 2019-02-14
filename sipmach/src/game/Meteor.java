@@ -8,6 +8,8 @@ public class Meteor {
 	double velX = 0;
 	double velY = 0;
 	
+	double rate = 1;
+	
 	public Meteor(int screenWidth, int screenHeight) {}
 	
 	void update() {
