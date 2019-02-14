@@ -26,10 +26,6 @@ public class GameWindow {
 	double meteorRate;
 
 	int highscore;
-
-	int timer;
-	boolean canShoot;
-	boolean shoot;
 	
 	int maxRad;
 
@@ -39,9 +35,6 @@ public class GameWindow {
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
 		shots = new ArrayList<Shot>();
-		canShoot = true;
-		shoot = false;
-		this.timer = 0;
 		try {
 			Class<?> meteorClass = Class.forName(meteor);
 			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE);
@@ -185,34 +178,15 @@ public class GameWindow {
 
 	void resetShots() {
 		shots.clear();
-		timer = 0;
-		shoot = false;
 	}
 
 	void handleShots() {
 		if (window.wasKeyTyped("space")) {
-			shoot = true;
-		}
-
-		if (shoot) {
 			if (player.shotCounter > 0) {
 				shots.add(new Shot(player.x, player.y));
 				player.shotCounter--;
-				canShoot = false;
-			} else {
-				shoot = false;
-			}
+			} 
 		}
-
-		if (canShoot = false) {
-			timer++;
-		}
-		if (timer >= 100) {
-			canShoot = true;
-			timer = 0;
-		}
-
-		shoot = false;
 	}
 
 }
