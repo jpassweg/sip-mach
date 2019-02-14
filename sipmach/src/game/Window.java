@@ -113,7 +113,7 @@ public class Window {
     
     private final JFrame frame;
     private final JPanel panel;
-    private final int pixelScale = (int) 1;
+    private final int pixelScale = (int) 1;									//CHANGED BY JONAS PASSWEG
     
     private BufferedImage canvas;
     private BufferedImage snapshot;
@@ -649,12 +649,12 @@ public class Window {
                 images.put(imagePath, image);
                 
                 BufferedImage scaled;
-                if(pixelScale == 1)
+                //if(pixelScale == 1)
                     scaled = image;
-                else {
-                    AffineTransformOp op = new AffineTransformOp(getScaleInstance(pixelScale, pixelScale), TYPE_NEAREST_NEIGHBOR);
-                    scaled = op.filter(image, null);
-                }
+                //else {
+                //    AffineTransformOp op = new AffineTransformOp(getScaleInstance(pixelScale, pixelScale), TYPE_NEAREST_NEIGHBOR);
+                //    scaled = op.filter(image, null);
+                //}
                 scaledImages.put(imagePath, scaled);
             } catch (IOException e) {
                 throw new Error("could not load image \"" + imagePath + "\"", e);
