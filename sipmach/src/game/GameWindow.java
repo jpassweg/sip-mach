@@ -57,10 +57,10 @@ public class GameWindow {
 			
 			
 			movement = 0;
-			if(window.wasKeyTyped("left")) {
+			if(window.isKeyPressed("left")) {
 				movement = -1;
 				boostCounter--;
-			} else if(window.wasKeyTyped("right")) {
+			} else if(window.isKeyPressed("right")) {
 				movement = 1;
 				boostCounter--;
 			} //add down-key to stop moving

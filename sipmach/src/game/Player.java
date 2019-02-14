@@ -26,8 +26,12 @@ public class Player {
 		} else if( x > screenWidth + 10) {
 			x = -10;
 		}
-		if(speed >= 4) {
-			speed = 4;
+		if(Math.abs(speed) >= 4) {
+			if(speed < 0) {
+				speed = -4;
+			} else {
+				speed = 4;
+			}
 		}
 		speed += acc * movement;
 	}
