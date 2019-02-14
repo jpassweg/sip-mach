@@ -11,12 +11,14 @@ public class GameWindow {
 	int stepcounter = 0;
 	int screenWidth;
 	int screenHeight;
+	int boostCounter;
 	
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		window = new Window("SPI-MACH", screenWidth, screenHeight);
+		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
+		this.boostCounter = 5;
 	}
 	
 	public void run() {
@@ -49,13 +51,18 @@ public class GameWindow {
 			if(rand.nextInt(50 - Math.min(45, (int) stepcounter/50)) == 0) {
 				meteors.add(new Meteor(window));
 			}
+			if(stepcounter % 1000 == 0 && boostCounter < 5) {
+				boostCounter++;
+			}
 			
 			
 			movement = 0;
-			if(window.isKeyPressed("left")) {
+			if(window.wasKeyTyped("left")) {
 				movement = -1;
-			} else if(window.isKeyPressed("right")) {
+				boostCounter--;
+			} else if(window.wasKeyTyped("right")) {
 				movement = 1;
+				boostCounter--;
 			} //add down-key to stop moving
 			player.move(movement);
 			
@@ -75,6 +82,7 @@ public class GameWindow {
 		}
 		window.setColor(255,255,255);
 		window.fillRect(player.x, player.y, 10, 30);
+		player.drawBoostCounter(window, boostCounter);
 	}
 
 }
