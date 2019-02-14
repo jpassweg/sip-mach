@@ -18,10 +18,8 @@ public class Meteor {
 		this.size = rand.nextInt(18) + 4;
 		
 		this.velY = ((double) (rand.nextInt(10) + 1)) / 10;
-		this.velX = (rand.nextDouble() * (2*velY/0.6)) - (velY/0.6);
+		this.velX = (rand.nextDouble() * (2.0*velY/0.6)) - (velY/0.6);
 	}
-	
-	
 	
 	void update() {
 		x += velX;
