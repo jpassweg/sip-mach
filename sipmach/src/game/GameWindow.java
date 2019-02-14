@@ -12,6 +12,8 @@ public class GameWindow {
 	int screenWidth;
 	int screenHeight;
 	int boostCounter;
+	int timeSteps;
+	boolean movable;
 	
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -19,6 +21,8 @@ public class GameWindow {
 		window = new Window("Pixels", screenWidth, screenHeight);
 		meteors = new ArrayList<Meteor>();
 		this.boostCounter = 5;
+		this.timeSteps = 0;
+		this.movable = true;
 	}
 	
 	public void run() {
@@ -54,16 +58,27 @@ public class GameWindow {
 			if(stepcounter % 1000 == 0 && boostCounter < 5) {
 				boostCounter++;
 			}
+			if(!movable) {
+				timeSteps++;
+				if(timeSteps >= 200) {
+					timeSteps = 0;
+					movable = true;
+				}
+			}
 			
 			 
 			movement = 0;
-			if(window.isKeyPressed("left")) {
-				movement = -1;
-				boostCounter--;
-			} else if(window.isKeyPressed("right")) {
-				movement = 1;
-				boostCounter--;
-			} //add down-key to stop moving
+			if(movable) {
+				if(window.isKeyPressed("left")) {
+					movement = -1;
+					boostCounter--;
+					movable = false;
+				} else if(window.isKeyPressed("right")) {
+					movement = 1;
+					boostCounter--;
+					movable = false;
+				}
+			}
 			player.move(movement);
 			
 			

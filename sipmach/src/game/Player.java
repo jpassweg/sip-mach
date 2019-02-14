@@ -6,7 +6,7 @@ public class Player {
 	int y = 200;
 	int screenWidth;
 	double speed;
-	double acc = 0.1;
+	double acc = 0.5;
 	int playerWidth = 10;
 
 	
@@ -28,9 +28,9 @@ public class Player {
 		}
 		if(Math.abs(speed) >= 4) {
 			if(speed < 0) {
-				speed = -4;
+				speed = -3.5;
 			} else {
-				speed = 4;
+				speed = 3.5;
 			}
 		}
 		speed += acc * movement;
