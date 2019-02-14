@@ -11,12 +11,13 @@ public class Meteor {
 	
 	Random rand;
 	
-	Meteor(Window window){
+	Meteor(int screenWidth, int screenHeight){
 		this.rand = new Random();
-		this.y = - window.getHeight()/5;
-		this.x = rand.nextInt((int)(window.getWidth()*1.2));
-		this.size = rand.nextInt(10) + 2;
-		double time = y / velY;
+		this.y = - (screenHeight/5);
+		this.x = rand.nextInt((int) (screenWidth));
+		this.size = rand.nextInt(18) + 4;
+		
+		
 		this.velX = (rand.nextInt(21) - 10) / 10;
 		if(velX < 0) {
 			velX += 1;
@@ -24,7 +25,7 @@ public class Meteor {
 			velX -= 1;
 		}
 		this.velY = ((double) (rand.nextInt(10) + 1)) / 10;
-		//gdgv
+		
 	}
 	
 	

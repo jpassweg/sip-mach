@@ -113,7 +113,7 @@ public class Window {
     
     private final JFrame frame;
     private final JPanel panel;
-    private final int pixelScale = (int) round(getDefaultToolkit().getScreenResolution() / 96.0);
+    private final int pixelScale = (int) 1;
     
     private BufferedImage canvas;
     private BufferedImage snapshot;
