@@ -89,6 +89,11 @@ import javax.swing.SwingUtilities;
  * to the bottom of the window. Note that, on high-DPI monitors, one pixel in the window
  * coordinate system may correspond to multiple actual pixels on the monitor.
  */
+/*
+ * Changed by Jonas Passweg:
+ * changed pixelScale to 1 so that window is always the same independent of screenSize
+ * commented out some unused Line (due to pixelScale change) in ensureLoaded methode
+ */
 public class Window {
     
     private static final Set<String> legalKeyTexts = new HashSet<>();
@@ -113,7 +118,7 @@ public class Window {
     
     private final JFrame frame;
     private final JPanel panel;
-    private final int pixelScale = (int) 1;									//CHANGED BY JONAS PASSWEG
+    private final int pixelScale = (int) 1;
     
     private BufferedImage canvas;
     private BufferedImage snapshot;
