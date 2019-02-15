@@ -8,7 +8,7 @@ import java.lang.ClassCastException;
 public class GameWindow {
 	
 	String spaceshipSkin = "graphics/RoundSpaceShip.png";
-	String meteorSkin = "graphics/SwissCheeseMeteor.png";
+	String meteorSkin = "graphics/AmericanFlagMeteor.png";
 	String backgroundSkin= "graphics/background1.png";
 	
 	private Window window;
@@ -22,7 +22,7 @@ public class GameWindow {
 	private int screenWidth;
 	private int screenHeight;
 	
-	private String meteor = "game.TeaseMeteor";
+	private String meteor = "game.DownfallMeteor";
 	private Constructor<?> meteorConstructor;
 	private double meteorRate;
 	private int maxRad;
@@ -48,6 +48,7 @@ public class GameWindow {
 			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1);
 			meteorRate = instance.rate;
 			maxRad = giveMaxRad(instance);
+			System.out.println(maxRad);
 		} catch (Exception e) {
 			e.printStackTrace();
 			meteorRate = 1;
@@ -155,10 +156,32 @@ public class GameWindow {
 		window.drawImage(backgroundSkin, 0, 0, (double) screenWidth/200.0);
 		window.setColor(139, 69, 19);
 		
+		/*	FOR TEASE METEOR ONLY:
+		 * 		apparently scaling was radius / maxRadius * 42/50 but don't ask me why. Be happy it works
+		 * 
+		 *		works for:
+		 *  	-> AmericanFlagMeteor
+		 *  	-> SwissCheeseMeteor
+		 *  	
+		 *  	does not work for
+		 *  	-> meteorite1	(not even close)
+		 *  
+		 *  FOR ACTUAL GAME:
+		 *  	Scaling is 50/38. Why? Ask god once you are dead. 
+		 *  	
+		 *  	Note: 
+		 *  	It's not pixel-perfect, but actually good enough. 
+		 *  	If you don't trust me: check by enabling drawCircle and running it before and after drawImage
+		 *  
+		 *  UPDATE: 
+		 *  	Above is a lie. 50/38 scaling only works for downfall, not for mayhem
+		 *  
+		 *  	TODO: fix it for good
+		 */
+		
 		for (int i = 0; i < meteors.size(); i++) {
-			//TODO better image scaling
-			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, 1.0/(maxRad) * meteors.get(i).radius);
-			//window.fillCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
+			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, (double) meteors.get(i).radius / maxRad *(50.0/38));
+			//window.drawCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
 		}
 
 		for (int i = 0; i < shots.size(); i++) {
@@ -204,5 +227,4 @@ public class GameWindow {
 		player.reset();
 		shots.clear();
 	}
-
 }

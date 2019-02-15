@@ -16,5 +16,4 @@ public class Main {
 		GameWindow game = new GameWindow(SCREEN_LENGTH, SCREEN_HEIGHT);
 		game.run();
 	}
-
 }
