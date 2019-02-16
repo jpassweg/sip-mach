@@ -7,9 +7,11 @@ import java.lang.ClassCastException;
 
 public class GameWindow {
 	
-	String spaceshipSkin = "graphics/RoundSpaceShip.png";
-	String meteorSkin = "graphics/AmericanFlagMeteor.png";
-	String backgroundSkin= "graphics/background1.png";
+	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
+	
+	private static final String spaceshipSkin = "graphics/RoundSpaceShip.png";
+	private static final String meteorSkin = "graphics/AmericanFlagMeteor.png";
+	private static final String backgroundSkin= "graphics/background1.png";
 	
 	private Window window;
 	private Player player;
@@ -42,17 +44,6 @@ public class GameWindow {
 		meteors = new ArrayList<Meteor>();
 		shots = new ArrayList<Shot>();
 		
-		try {
-			Class<?> meteorClass = Class.forName(meteor);
-			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE);
-			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1);
-			meteorRate = instance.rate;
-			maxRad = giveMaxRad(instance);
-			System.out.println(maxRad);
-		} catch (Exception e) {
-			e.printStackTrace();
-			meteorRate = 1;
-		}
 		
 		highscore = 0;
 
@@ -76,7 +67,23 @@ public class GameWindow {
 
 		assert(window.isOpen());
 		StartScreen.draw(window);
-		window.refreshAndClear(10000);
+		meteor = "game.";
+		
+		meteor += StartScreen.getMode(window);
+		
+		
+		try {
+			Class<?> meteorClass = Class.forName(meteor);
+			meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE);
+			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1);
+			meteorRate = instance.rate;
+			maxRad = giveMaxRad(instance);
+			System.out.println(maxRad);
+		} catch (Exception e) {
+			e.printStackTrace();
+			meteorRate = 1;
+		}
+		
 		while (window.isOpen()) {
 			draw();
 			handleCollisions();
