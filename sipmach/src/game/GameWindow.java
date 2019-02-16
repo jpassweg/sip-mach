@@ -74,6 +74,9 @@ public class GameWindow {
 
 	public void run() {
 
+		assert(window.isOpen());
+		StartScreen.draw(window);
+		window.refreshAndClear(10000);
 		while (window.isOpen()) {
 			draw();
 			handleCollisions();
@@ -92,7 +95,7 @@ public class GameWindow {
 				highscore = stepcounter;
 			reset();
 		}
-		Collision.shotMeteorB(shots, meteors);
+		Collision.shotMeteor(shots, meteors);
 	}
 	
 	private void handleMeteors() {
