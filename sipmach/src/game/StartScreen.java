@@ -21,8 +21,10 @@ class StartScreen implements Drawable {
 	private ArrayList<ModeBox> boxes = new ArrayList<ModeBox>();
 	
 	
-	@Override
-	public void draw(Window window) {
+	StartScreen(Window window){
+		
+		window.addComponent(this);
+		
 		width = window.getWidth();
 		height = window.getHeight();
 		
@@ -34,8 +36,7 @@ class StartScreen implements Drawable {
 		highestBoxY = height * 0.5 + boxHeight/2 - (modes.length - 1) / 2 * boxHeight * 2;
 		
 		
-		window.setColor(0,0,0);
-		window.fillRect(0, 0, width, height);
+		
 		window.setFontSize(20);
 		
 		boolean left = true;
@@ -45,15 +46,15 @@ class StartScreen implements Drawable {
 		for(int i = 0; i < modes.length; i++) {
 			if(!(i == modes.length - 1)) {
 				if(left) {
-					boxes.add(new ModeBox(leftBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeBox(leftBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				} else {
-					boxes.add(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				}
 			} else {
 				if(left) {
-					boxes.add(new ModeBox(middleBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeBox(middleBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				} else {
-					boxes.add(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				}
 			}
 			left = !left;
@@ -62,10 +63,13 @@ class StartScreen implements Drawable {
 			}
 		}	
 		
-		for(int i = 0; i < boxes.size(); i++) {
-			window.addComponent(boxes.get(i));
-		}
-		window.refresh(20);
+		
+	}
+	
+	@Override
+	public void draw(Window window) {
+		window.setColor(0,0,0);
+		window.fillRect(0, 0, width, height);
 	}
 
 	private static double boxY(int counter) {

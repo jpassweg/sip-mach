@@ -51,9 +51,7 @@ public class GameWindow {
 
 		rand = new Random();		
 		
-		sc = new StartScreen();
-		
-		window.addComponent(sc);
+		sc = new StartScreen(window);
 	}
 	
 	private int giveMaxRad(Meteor met) {
@@ -73,9 +71,12 @@ public class GameWindow {
 
 		assert(window.isOpen());
 		sc.draw(window);;
-		meteor = "game.";
-		
-		meteor += StartScreen.getMode(window);
+		meteor = "";
+		while(sc.mode.equals("game.")) {
+			window.refresh();
+		}
+		meteor += sc.mode;
+		window.removeAllComponents();
 		
 		
 		try {
@@ -231,7 +232,7 @@ public class GameWindow {
 
 	private void drawStats() {
 		window.setColor(255, 255, 255);
-		window.setStrokeWidth(4);
+		window.setFontSize(10);
 		window.drawString("Score: " + stepcounter, window.getWidth() * 0.45, window.getHeight() * 0.1);
 		window.drawString("Highscore: " + highscore, window.getWidth() * 0.45, window.getHeight() * 0.11);
 		window.drawString("Available shots: " + player.shotCounter, window.getWidth() * 0.1, window.getHeight() * 0.1);

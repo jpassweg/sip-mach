@@ -3,9 +3,9 @@ package game;
 public class ModeBox implements Drawable, Hoverable, Clickable {
 
 	/*
-	 * 		   (x,y)  ---------------------------  (x+width, y)
+	 * 		   (x, y) ---------------------------  (x+width, y)
 	 * 				  |		  some text			|
-	 * (x,y + height) ---------------------------  (x+width, y + height)
+	 * (x, y+height)  ---------------------------  (x+width, y+height)
 	 */
 	
 	double x;
@@ -36,7 +36,6 @@ public class ModeBox implements Drawable, Hoverable, Clickable {
 	
 	@Override
 	public void onMouseEnter() {
-		
 	}
 	
 	@Override
@@ -47,8 +46,8 @@ public class ModeBox implements Drawable, Hoverable, Clickable {
 	@Override
 	public void onLeftClick(double x, double y) {
 		if(getBoundingBox().contains(x, y)) {
-			StartScreen.mode += text;
-			StartScreen.mode += "Meteor";
+			screen.mode += text;
+			screen.mode += "Meteor";
 		}
 	}
 	

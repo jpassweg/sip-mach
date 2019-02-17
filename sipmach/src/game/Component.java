@@ -2,15 +2,15 @@ package game;
 
 /**
  * A component is an object that can be drawn and/or interacted with in a
- * {@link Window}. This interface does not declare any method and is only there
+ * {@link Window2}. This interface does not declare any method and is only there
  * to have a common supertype for the interfaces {@link Drawable} and
  * {@link Interactive}.
  */
 public interface Component {}
 
 /**
- * A {@link Component} that can be drawn on a {@link Window}. It has a single
- * method, {@link #draw(Window)}, which takes the window instance on which it
+ * A {@link Component} that can be drawn on a {@link Window2}. It has a single
+ * method, {@link #draw(Window2)}, which takes the window instance on which it
  * should be drawn.
  */
 interface Drawable extends Component {

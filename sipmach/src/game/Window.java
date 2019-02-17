@@ -375,6 +375,8 @@ public class Window {
     }
     
     private void refresh(int waitTime, boolean clear) {
+    	runComponents();
+    	
         if(clear) {
             synchronized(this) {
                 BufferedImage newCanvas = snapshot;
@@ -494,6 +496,12 @@ public class Window {
             throw new IllegalArgumentException("component must not be null");
         if(!components.remove(component))
             throw new IllegalArgumentException("component not present");
+    }
+    
+    public void removeAllComponents() {
+    	for(int i = components.size()-1; i >= 0; i--) {
+    		components.remove(i);
+    	}
     }
     
     /**
