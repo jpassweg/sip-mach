@@ -6,6 +6,9 @@ class StartScreen implements Drawable {
 	
 	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
 	private static final String[] meteors = {"DownfallMeteor", "MayhemMeteor", "TeaseMeteor"};
+	public static final String[] skinspaths = {"graphics/AmericanFlagMeteor.png",
+	   									   		"graphics/SwissCheeseMeteor.png"};
+	private static final String[] skinnames = {"American", "Cheese"};
 	
 	private static double width;
 	private static double height;
@@ -18,9 +21,13 @@ class StartScreen implements Drawable {
 	private static double highestBoxY;
 	public static String mode = "game.";
 	
+	public static ArrayList<SkinButton> skinButtons = new ArrayList<SkinButton>();
+	
 	
 	
 	StartScreen(Window window){
+		
+		// add startscreen to components
 		
 		window.addComponent(this);
 		
@@ -35,6 +42,7 @@ class StartScreen implements Drawable {
 		highestBoxY = height * 0.5 + boxHeight/2 - (modes.length - 1) / 2 * boxHeight * 2;
 		
 		
+		//add buttons for modes to components
 		
 		window.setFontSize(20);
 		
@@ -62,7 +70,21 @@ class StartScreen implements Drawable {
 			}
 		}	
 		
-		
+		//add buttons for skins to components
+		double skinY = window.getHeight() * 0.2;
+		double leftX = window.getWidth() * 0.2;
+		double rightX = window.getWidth() * 0.8;
+		double dist = 30;
+		double skinWidth = (rightX - leftX - (skinnames.length-1) * dist) / skinnames.length;
+		double skinHeight = 30;
+		for(int i = 0; i < skinnames.length; i++) {
+			double skinX = leftX + i * skinWidth + i * dist;
+			skinButtons.add(new SkinButton(skinX, skinY, skinWidth, skinHeight, skinnames[i], this));
+		}
+		skinButtons.get(0).selected = true;
+		for(int i = 0; i < skinButtons.size(); i++) {
+			window.addComponent(skinButtons.get(i));
+		}
 	}
 	
 	@Override

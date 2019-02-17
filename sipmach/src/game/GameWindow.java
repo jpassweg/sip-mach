@@ -10,7 +10,7 @@ public class GameWindow {
 	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
 	
 	private static final String spaceshipSkin = "graphics/RoundSpaceShip.png";
-	private static final String meteorSkin = "graphics/SwissCheeseMeteor.png";
+	private static String meteorSkin = "";
 	private static final String backgroundSkin= "graphics/background1.png";
 	private static final double[] scalings = {100.0/78, 43.0/100, 42.0/50};
 	
@@ -84,6 +84,13 @@ public class GameWindow {
 			window.refresh();
 		}
 		meteor += sc.mode;
+		
+		for(int i = 0; i < sc.skinButtons.size(); i++) {
+			if(sc.skinButtons.get(i).selected) {
+				meteorSkin = sc.skinspaths[i];
+				break;
+			}
+		}
 		window.removeAllComponents();
 		
 		
