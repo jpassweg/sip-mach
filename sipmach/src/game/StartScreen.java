@@ -1,6 +1,8 @@
 package game;
 
-public class StartScreen {
+import java.util.ArrayList;
+
+class StartScreen implements Drawable {
 	
 	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
 	private static final String[] meteors = {"DownfallMeteor", "MayhemMeteor", "TeaseMeteor"};
@@ -14,9 +16,13 @@ public class StartScreen {
 	private static double boxWidth;
 	private static double boxHeight;
 	private static double highestBoxY;
-	private static int scale = 25;
+	public static String mode = "game.";
 	
-	static void draw(Window window) {
+	private ArrayList<ModeBox> boxes = new ArrayList<ModeBox>();
+	
+	
+	@Override
+	public void draw(Window window) {
 		width = window.getWidth();
 		height = window.getHeight();
 		
@@ -39,15 +45,15 @@ public class StartScreen {
 		for(int i = 0; i < modes.length; i++) {
 			if(!(i == modes.length - 1)) {
 				if(left) {
-					drawBox(leftBoxX, counter, i, window);
+					boxes.add(new ModeBox(leftBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				} else {
-					drawBox(rightBoxX, counter, i, window);
+					boxes.add(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				}
 			} else {
 				if(left) {
-					drawBox(middleBoxX, counter, i, window);
+					boxes.add(new ModeBox(middleBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				} else {
-					drawBox(rightBoxX, counter, i, window);
+					boxes.add(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				}
 			}
 			left = !left;
@@ -55,73 +61,23 @@ public class StartScreen {
 				counter++;
 			}
 		}	
-		window.refresh();
+		
+		for(int i = 0; i < boxes.size(); i++) {
+			window.addComponent(boxes.get(i));
+		}
+		window.refresh(20);
 	}
-	
-	static void drawBox(double boxX, int counter, int i, Window window) {
-		window.setColor(150, 150, 150);
-		window.fillRect(boxX, highestBoxY + counter * 2 * boxHeight, boxWidth, boxHeight);
-		window.setColor(255, 0, 0);
-		window.drawString(modes[i], boxX + 2 * scale, highestBoxY + counter * 2 * boxHeight + scale);
+
+	private static double boxY(int counter) {
+		return highestBoxY + counter * 2 * boxHeight;
 	}
 	
 	static String getMode(Window window) {
-		double mouseX = 0;
-		double mouseY = 0;
 		
 		while(true) {
-			if(window.wasLeftMouseButtonClicked()) {
-				System.out.println("hello");
-				mouseX = window.getMouseX();
-				mouseY = window.getMouseY();
-				System.out.println(window.getMouseX() + " " + mouseY);
-				boolean left = true;
-				boolean clicked = false;
-				int counter = 0; 
-				
-				for(int i = 0; i < modes.length; i++) {
-					if(!(i == modes.length - 1)) {
-						if(left) {
-							clicked = wasInBox(mouseX, mouseY, leftBoxX, highestBoxY + counter * 2 * boxHeight);
-						} else {
-							clicked = wasInBox(mouseX, mouseY, rightBoxX, highestBoxY + counter * 2 * boxHeight);
-						}
-					} else {
-						if(left) {
-							clicked = wasInBox(mouseX, mouseY, middleBoxX, highestBoxY + counter * 2 * boxHeight);
-						} else {
-							clicked = wasInBox(mouseX, mouseY, rightBoxX, highestBoxY + counter * 2 * boxHeight);
-						}
-					}
-					
-					if(clicked) {
-						return meteors[i];
-					}
-					left = !left;
-					
-					if(left) {
-						counter++;
-					}
-				}
+			if(!(mode.equals("game."))) {
+				return mode;
 			}
 		}
 	}
-	
-	static boolean wasInBox(double mouseX, double mouseY, double boxX, double boxY) {
-		if(mouseX < boxX) {
-			return false;
-		}
-		if(mouseX > boxX + boxWidth) {
-			return false;
-		}
-		if(mouseY < boxY) {
-			return false;
-		}
-		if(mouseY > boxY + boxHeight) {
-			return false;
-		}
-
-		return true;
-	}
-
 }

@@ -30,6 +30,8 @@ public class GameWindow {
 	private int maxRad;
 	
 	private Random rand;
+	
+	private StartScreen sc;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -48,6 +50,10 @@ public class GameWindow {
 		highscore = 0;
 
 		rand = new Random();		
+		
+		sc = new StartScreen();
+		
+		window.addComponent(sc);
 	}
 	
 	private int giveMaxRad(Meteor met) {
@@ -66,7 +72,7 @@ public class GameWindow {
 	public void run() {
 
 		assert(window.isOpen());
-		StartScreen.draw(window);
+		sc.draw(window);;
 		meteor = "game.";
 		
 		meteor += StartScreen.getMode(window);

@@ -59,6 +59,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+
+import static java.util.Collections.newSetFromMap;
+
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Set;
+
+ 
+
 /**
  * A class for creating simple GUIs (graphical user interfaces). Every instance represents
  * a separate Window. The programmer can display content in the window by drawing on a canvas
@@ -98,6 +108,8 @@ public class Window {
     
     private static final Set<String> legalKeyTexts = new HashSet<>();
     private static final Map<Integer, String> code2text = new HashMap<>();
+    private final Set<Hoverable> hovered = newSetFromMap(new IdentityHashMap<>());
+    private final List<Component> components = new ArrayList<Component>();  
     
     static {
         for(Field field : KeyEvent.class.getFields()) {
@@ -400,6 +412,41 @@ public class Window {
         }
     }
     
+    private void runComponents() {
+        double mx = mouseX;
+        double my = mouseY;
+        for(Component comp : components) {
+            if(comp instanceof Hoverable) {
+                Hoverable h = (Hoverable) comp;
+                if(h.getBoundingBox().contains(mx, my) && hovered.add(h))
+                    h.onMouseEnter();
+                else if(!h.getBoundingBox().contains(mx, my) && hovered.remove(h))
+                    h.onMouseExit();
+            }
+        }
+        boolean leftClicked = wasLeftMouseButtonClicked();
+        boolean rightClicked = wasRightMouseButtonClicked();
+        if(leftClicked || rightClicked) {
+            for(Component comp : components) {
+                if(comp instanceof Clickable) {
+                    Clickable c = (Clickable) comp;
+                    if(c.getBoundingBox().contains(mx, my)) {
+                        if(leftClicked)
+                            c.onLeftClick(mx, my);
+                        if(rightClicked)
+                            c.onRightClick(mx, my);
+                    }
+                }
+            }
+        }
+        for(Component comp : components) {
+            if(comp instanceof Drawable) {
+                Drawable d = (Drawable) comp;
+                d.draw(this);
+            }
+        }
+    }
+    
     private static void clear(BufferedImage image) {
         int[] data = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         for(int i = 0; i < data.length; i++)
@@ -414,6 +461,39 @@ public class Window {
         g.fillRect(0, 0, size.width, size.height);
         g.dispose();
         return canvas;
+    }
+    
+    /**
+     * Adds <code>component</code> to this window. Whenever one of the
+     * {@link #refresh()} methods is called, first the events for
+     * {@link Interactive} components (e.g. {@link Hoverable#onMouseEnter()
+     * onMouseEnter()}) are fired and then {@link Drawable} components are drawn.
+     * 
+     * @throws IllegalArgumentException
+     *             if <code>component</code> is <code>null</code> or already added.
+     * @see #removeComponent(Component)
+     */
+    public void addComponent(Component component) {
+        if(component == null)
+            throw new IllegalArgumentException("component must not be null");
+        if(components.stream().anyMatch(c -> c == component))
+            throw new IllegalArgumentException("component already added");
+        components.add(component);
+    }
+
+    /**
+     * Removes <code>component</code> from this window.
+     * 
+     * @throws IllegalArgumentException
+     *             if <code>component</code> is <code>null</code> not previously
+     *             added.
+     * @see #addComponent(Component)
+     */
+    public void removeComponent(Component component) {
+        if(component == null)
+            throw new IllegalArgumentException("component must not be null");
+        if(!components.remove(component))
+            throw new IllegalArgumentException("component not present");
     }
     
     /**
@@ -916,3 +996,4 @@ final class Color {
         return r == other.r && g == other.g && b == other.b;
     }
 }
+
