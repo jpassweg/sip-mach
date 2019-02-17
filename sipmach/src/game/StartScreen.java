@@ -18,7 +18,6 @@ class StartScreen implements Drawable {
 	private static double highestBoxY;
 	public static String mode = "game.";
 	
-	private ArrayList<ModeBox> boxes = new ArrayList<ModeBox>();
 	
 	
 	StartScreen(Window window){

@@ -10,8 +10,9 @@ public class GameWindow {
 	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
 	
 	private static final String spaceshipSkin = "graphics/RoundSpaceShip.png";
-	private static final String meteorSkin = "graphics/AmericanFlagMeteor.png";
+	private static final String meteorSkin = "graphics/SwissCheeseMeteor.png";
 	private static final String backgroundSkin= "graphics/background1.png";
+	private static final double[] scalings = {100.0/78, 43.0/100, 42.0/50};
 	
 	private Window window;
 	private Player player;
@@ -24,7 +25,7 @@ public class GameWindow {
 	private int screenWidth;
 	private int screenHeight;
 	
-	private String meteor = "game.DownfallMeteor";
+	private String meteor = "";
 	private Constructor<?> meteorConstructor;
 	private double meteorRate;
 	private int maxRad;
@@ -32,6 +33,7 @@ public class GameWindow {
 	private Random rand;
 	
 	private StartScreen sc;
+	private int scalingIndex = 1;
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -56,22 +58,28 @@ public class GameWindow {
 	
 	private int giveMaxRad(Meteor met) {
 		try {
+			scalingIndex = 0;
+			return ((DownfallMeteor) met).maxRad;
+		} catch (ClassCastException ex) {}
+		try {
+			scalingIndex = 1;
 			return ((MayhemMeteor) met).maxRad;
 		} catch (ClassCastException ex) {}
 		try {
+			scalingIndex = 2;
 			return ((TeaseMeteor) met).maxRad;
-		} catch (ClassCastException ex) {}
-		try {
-			return ((DownfallMeteor) met).maxRad;
 		} catch (ClassCastException ex) {}
 		return 1;
 	}
 
 	public void run() {
 
+		/*
+		 * Set settings -> not best place, should relocate
+		 */
+		
 		assert(window.isOpen());
 		sc.draw(window);;
-		meteor = "";
 		while(sc.mode.equals("game.")) {
 			window.refresh();
 		}
@@ -197,7 +205,8 @@ public class GameWindow {
 		 */
 		
 		for (int i = 0; i < meteors.size(); i++) {
-			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, (double) meteors.get(i).radius / maxRad *(50.0/38));
+			
+			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, (double) meteors.get(i).radius / maxRad * scalings[scalingIndex]);
 			//window.drawCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
 		}
 

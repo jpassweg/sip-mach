@@ -12,7 +12,7 @@ public class MayhemMeteor extends Meteor {
 		y = - (screenHeight/5);
 		x = rand.nextInt((int) (screenWidth));
 		
-		radius = rand.nextInt(18) + 4;
+		radius = rand.nextInt(18) + 20;
 		
 		double ration = (double) screenHeight / (double) screenWidth;
 		velY = ((double) (rand.nextInt(10) + 1)) / 10;
