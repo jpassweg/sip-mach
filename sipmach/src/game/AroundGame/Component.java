@@ -1,4 +1,4 @@
-package game;
+package game.AroundGame;
 
 /**
  * A component is an object that can be drawn and/or interacted with in a

@@ -3,6 +3,11 @@ package game;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Random;
+
+import game.AroundGame.EndScreen;
+import game.AroundGame.StartScreen;
+import game.AroundGame.Window;
+
 import java.lang.ClassCastException;
 import java.lang.System;
 

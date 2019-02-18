@@ -1,4 +1,4 @@
-package game;
+package game.AroundGame;
 
 public class SkinButton extends Button {
 

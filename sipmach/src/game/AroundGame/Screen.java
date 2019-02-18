@@ -1,6 +1,4 @@
-package game;
-
-import java.util.ArrayList;
+package game.AroundGame;
 
 public class Screen implements Drawable {
 	

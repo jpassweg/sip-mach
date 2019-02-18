@@ -1,4 +1,4 @@
-package game;
+package game.AroundGame;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class EndScreen extends Screen {
 	public boolean restart = false;
 	Window window;
 
-	EndScreen(Window window){
+	public EndScreen(Window window){
 		super(window);
 		
 		

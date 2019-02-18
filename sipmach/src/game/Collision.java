@@ -2,6 +2,8 @@ package game;
 
 import java.util.ArrayList;
 
+import game.AroundGame.Window;
+
 public class Collision {
 
 	public static boolean collides(Player player, ArrayList<Meteor> meteors) {

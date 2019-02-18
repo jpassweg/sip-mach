@@ -1,4 +1,4 @@
-package game;
+package game.AroundGame;
 
 public class Button implements Drawable, Hoverable, Clickable {
 	

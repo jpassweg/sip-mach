@@ -1,5 +1,7 @@
 package game;
 
+import game.AroundGame.Window;
+
 public class Shot {
 
 	double x;

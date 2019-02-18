@@ -1,8 +1,8 @@
-package game;
+package game.AroundGame;
 
 import java.util.ArrayList;
 
-class StartScreen extends Screen {
+public class StartScreen extends Screen {
 	
 	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
 	private static final String[] meteors = {"DownfallMeteor", "MayhemMeteor", "TeaseMeteor"};
@@ -27,7 +27,7 @@ class StartScreen extends Screen {
 	 * TODO: Create superclass button for all kinds of buttons
 	 */
 	
-	StartScreen(Window window){
+	public StartScreen(Window window){
 		super(window);
 		
 		// add startscreen to components
