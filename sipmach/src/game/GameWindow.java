@@ -125,8 +125,9 @@ public class GameWindow {
 			
 			stepcounter++;
 			handleTime();
-			window.refreshAndClear(10);
 			time = System.currentTimeMillis();
+			window.refreshAndClear(10);
+			
 		}
 	}
 	
