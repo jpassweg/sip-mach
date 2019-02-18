@@ -55,15 +55,15 @@ class StartScreen implements Drawable {
 		for(int i = 0; i < modes.length; i++) {
 			if(!(i == modes.length - 1)) {
 				if(left) {
-					window.addComponent(new ModeBox(leftBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeButton(leftBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				} else {
-					window.addComponent(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeButton(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				}
 			} else {
 				if(left) {
-					window.addComponent(new ModeBox(middleBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeButton(middleBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				} else {
-					window.addComponent(new ModeBox(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
+					window.addComponent(new ModeButton(rightBoxX, boxY(counter), boxWidth, boxHeight, modes[i], this));
 				}
 			}
 			left = !left;
