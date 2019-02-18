@@ -23,7 +23,9 @@ class StartScreen implements Drawable {
 	
 	public static ArrayList<SkinButton> skinButtons = new ArrayList<SkinButton>();
 	
-	
+	/*
+	 * TODO: Create superclass button for all kinds of buttons
+	 */
 	
 	StartScreen(Window window){
 		
@@ -71,6 +73,7 @@ class StartScreen implements Drawable {
 		}	
 		
 		//add buttons for skins to components
+		
 		double skinY = window.getHeight() * 0.2;
 		double leftX = window.getWidth() * 0.2;
 		double rightX = window.getWidth() * 0.8;
@@ -95,14 +98,5 @@ class StartScreen implements Drawable {
 
 	private static double boxY(int counter) {
 		return highestBoxY + counter * 2 * boxHeight;
-	}
-	
-	static String getMode(Window window) {
-		
-		while(true) {
-			if(!(mode.equals("game."))) {
-				return mode;
-			}
-		}
 	}
 }

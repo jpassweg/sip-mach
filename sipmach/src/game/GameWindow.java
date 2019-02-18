@@ -33,6 +33,7 @@ public class GameWindow {
 	private Random rand;
 	
 	private StartScreen sc;
+	private EndScreen ec;
 	private int scalingIndex = 1;
 
 	public GameWindow(int screenWidth, int screenHeight) {
@@ -54,6 +55,7 @@ public class GameWindow {
 		rand = new Random();		
 		
 		sc = new StartScreen(window);
+	
 	}
 	
 	private int giveMaxRad(Meteor met) {
@@ -79,7 +81,6 @@ public class GameWindow {
 		 */
 		
 		assert(window.isOpen());
-		sc.draw(window);;
 		while(sc.mode.equals("game.")) {
 			window.refresh();
 		}
@@ -259,5 +260,15 @@ public class GameWindow {
 		meteors.clear();
 		player.reset();
 		shots.clear();
+		
+		playEndSequence();
+	}
+	
+	private void playEndSequence() {
+		ec = new EndScreen(window);
+		while(!ec.restart) {
+			window.refresh(20);
+		}
+		window.removeAllComponents();
 	}
 }
