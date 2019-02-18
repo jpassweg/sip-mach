@@ -1,21 +1,14 @@
 package game;
 
-import java.util.Random;
-
 public class MayhemMeteor extends Meteor {
 	
-	int maxRad = 21;
+	int maxRad = 18 + 20 - 1;
 
 	public MayhemMeteor(int screenWidth, int screenHeight, double rate) {
 		super(screenWidth, screenHeight, 1.0);
-		Random rand = new Random();
-		y = - (screenHeight/5);
-		x = rand.nextInt((int) (screenWidth));
-		
-		radius = rand.nextInt(18) + 20;
+		defRadius(18, 20);
 		
 		double ration = (double) screenHeight / (double) screenWidth;
-		velY = ((double) (rand.nextInt(10) + 1)) / 10;
 		velX = (rand.nextDouble() * (2.0*velY/ration)) - (velY/ration);
 	}
 }

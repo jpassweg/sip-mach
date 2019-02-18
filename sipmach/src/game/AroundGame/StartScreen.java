@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class StartScreen extends Screen {
 	
-	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
-	private static final String[] meteors = {"DownfallMeteor", "MayhemMeteor", "TeaseMeteor"};
+	private static final String[] modes = {"Downfall", "Mayhem", "Tease", "AI"};
+	private static final String[] meteors = {"DownfallMeteor", "MayhemMeteor", "TeaseMeteor", "AIMeteor"};
 	public static final String[] skinspaths = {"graphics/AmericanFlagMeteor.png",
 	   									   		"graphics/SwissCheeseMeteor.png"};
 	private static final String[] skinnames = {"American", "Cheese"};

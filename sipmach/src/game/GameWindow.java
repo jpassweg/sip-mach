@@ -1,6 +1,7 @@
 package game;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,12 +14,12 @@ import java.lang.System;
 
 public class GameWindow {
 	
-	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
+	private static final String[] modes = {"Downfall", "Mayhem", "Tease", "AI"};
 	
 	private static final String spaceshipSkin = "graphics/RoundSpaceShip.png";
 	private static String meteorSkin = "";
 	private static final String backgroundSkin= "graphics/background1.png";
-	private static final double[] scalings = {100.0/78, 43.0/100, 42.0/50};
+	private static final double[] scalings = {100.0/78, 73.0/100, 42.0/50, 2.65};		//only temporary
 	
 	private Window window;
 	private Player player;
@@ -79,6 +80,10 @@ public class GameWindow {
 			scalingIndex = 2;
 			return ((TeaseMeteor) met).maxRad;
 		} catch (ClassCastException ex) {}
+		try {
+			scalingIndex = 3;
+			return ((AIMeteor) met).maxRad;
+		} catch (ClassCastException ex) {}
 		return 1;
 	}
 
@@ -109,7 +114,6 @@ public class GameWindow {
 			Meteor instance = (Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1);
 			meteorRate = instance.rate;
 			maxRad = giveMaxRad(instance);
-			System.out.println(maxRad);
 		} catch (Exception e) {
 			e.printStackTrace();
 			meteorRate = 1;
@@ -142,14 +146,20 @@ public class GameWindow {
 				highscore = stepcounter;
 			reset();
 		}
-		Collision.shotMeteor(shots, meteors);
-		//Collision.shotMeteorC(shots, meteors, window);
+		switch(meteor) {
+		case "game.AIMeteor":
+			Collision.shotMeteorC(shots, meteors, window);
+			break;
+		default:
+			Collision.shotMeteor(shots, meteors);
+			break;
+		}
 	}
 	
 	private void handleMeteors() {
 		// update of remove if out of screen
 		for (int i = 0; i < meteors.size(); i++) {
-			if (meteors.get(i).y > screenHeight) {
+			if (meteors.get(i).y - meteors.get(i).radius > screenHeight) {
 				meteors.remove(i);
 			} else {
 				meteors.get(i).update();
@@ -158,22 +168,31 @@ public class GameWindow {
 
 		if (rand.nextDouble() < meteorRate / 5.0) {
 			try {
+				Class<?> meteorClass;
 				switch (meteor) {
 				case "game.TeaseMeteor":
-					Class<?> meteorClass = Class.forName(meteor);
-					meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, Integer.TYPE);
-					meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1, player.x - (player.playerWidth/2), 5));
+					meteorClass = Class.forName(meteor);
+					meteorCreation(meteorClass, 1, player.x - (player.playerWidth/2), 5);
+					break;
+				case "game.AIMeteor":
+					meteorClass = Class.forName(meteor);
+					meteorCreation(meteorClass, 0.01, player.x, player.y);
 					break;
 				default:
 					meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, 1));
 					break;
 				}
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 				meteors.add(new MayhemMeteor(screenWidth, screenHeight, 1));
 			}
 		}
+	}
+
+	private void meteorCreation(Class<?> meteorClass, double rate, int x, int other) throws ClassNotFoundException, NoSuchMethodException, InstantiationException,
+			IllegalAccessException, InvocationTargetException {
+		meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, Integer.TYPE);
+		meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, rate, x, other));
 	}
 	
 	private void handlePlayer() {
@@ -233,7 +252,7 @@ public class GameWindow {
 		for (int i = 0; i < meteors.size(); i++) {
 			
 			window.drawImageCentered(meteorSkin, meteors.get(i).x, meteors.get(i).y, (double) meteors.get(i).radius / maxRad * scalings[scalingIndex]);
-			//window.drawCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
+			window.drawCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
 		}
 
 		for (int i = 0; i < shots.size(); i++) {
