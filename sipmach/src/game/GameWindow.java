@@ -24,6 +24,7 @@ public class GameWindow {
 	private Window window;
 	private Player player;
 	public ArrayList<Meteor> meteors;
+	public ArrayList<Missle> missles;
 	public ArrayList<Shot> shots;
 	
 	private int stepcounter = 0; // also score
@@ -56,6 +57,7 @@ public class GameWindow {
 		player = new Player(screenWidth, screenHeight, spaceshipSkin);
 		
 		meteors = new ArrayList<Meteor>();
+		missles = new ArrayList<Missle>();
 		shots = new ArrayList<Shot>();
 		
 		
@@ -123,14 +125,15 @@ public class GameWindow {
 			
 			handleCollisions();
 			handleMeteors();
+			handleMissles(time);
+			handleTime();
+			time = System.currentTimeMillis();
 			handlePlayer();
 			handleShots();
 			draw();
 			
 			stepcounter++;
-			handleTime();
-			time = System.currentTimeMillis();
-			window.refreshAndClear(10);
+			window.refreshAndClear(100);
 			
 		}
 	}
@@ -157,7 +160,7 @@ public class GameWindow {
 	}
 	
 	private void handleMeteors() {
-		// update of remove if out of screen
+		// update or remove if out of screen
 		for (int i = 0; i < meteors.size(); i++) {
 			if (meteors.get(i).y - meteors.get(i).radius > screenHeight) {
 				meteors.remove(i);
@@ -193,6 +196,22 @@ public class GameWindow {
 			IllegalAccessException, InvocationTargetException {
 		meteorConstructor = meteorClass.getConstructor(Integer.TYPE, Integer.TYPE, Double.TYPE, Integer.TYPE, Integer.TYPE);
 		meteors.add((Meteor) meteorConstructor.newInstance(screenWidth, screenHeight, rate, x, other));
+	}
+	
+	private void handleMissles(long time) {
+		for(int i = 0; i < missles.size(); i++) {
+			//missles.get(i).lifespan -= time / 1000;
+			if(missles.get(i).lifespan <= 0) {
+				missles.remove(i);
+				System.out.println("hello");
+				i--;
+			} else {
+				missles.get(i).update();
+			}
+		}
+		if(stepcounter % 200 == 0) {
+			missles.add(new HeatSeekingMissle(window.getWidth()/2, window.getHeight()/2, 5, 15, player.x, player.y));
+		}
 	}
 	
 	private void handlePlayer() {
@@ -255,6 +274,12 @@ public class GameWindow {
 			window.drawCircle(meteors.get(i).x, meteors.get(i).y, meteors.get(i).radius);
 		}
 
+		for(int i = 0; i < missles.size(); i++) {
+			window.setColor(255, 255, 255);
+			window.fillRect(missles.get(i).x, missles.get(i).y, missles.get(i).width, missles.get(i).height);
+			window.drawLine(player.x, player.y, player.x - Math.cos(missles.get(i).angle) * 100, player.y - Math.sin(missles.get(i).angle) * 100);
+		}
+		
 		for (int i = 0; i < shots.size(); i++) {
 			shots.get(i).draw(window);
 			shots.get(i).update();
@@ -295,6 +320,7 @@ public class GameWindow {
 	private void reset() {
 		stepcounter = 0;
 		meteors.clear();
+		missles.clear();
 		player.reset();
 		shots.clear();
 		
