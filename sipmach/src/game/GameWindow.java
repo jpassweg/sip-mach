@@ -142,6 +142,7 @@ public class GameWindow {
 			reset();
 		}
 		Collision.shotMeteor(shots, meteors);
+		//Collision.shotMeteorC(shots, meteors, window);
 	}
 	
 	private void handleMeteors() {

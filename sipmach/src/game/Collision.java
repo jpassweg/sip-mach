@@ -85,6 +85,7 @@ public class Collision {
 				i--;
 				j--;
 				
+				if(shots.size() == 0) break;
 			}
 		}
 	}
