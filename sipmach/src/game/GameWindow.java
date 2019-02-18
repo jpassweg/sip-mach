@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Random;
 import java.lang.ClassCastException;
+import java.lang.System;
 
 public class GameWindow {
 	
@@ -35,6 +36,8 @@ public class GameWindow {
 	private StartScreen sc;
 	private EndScreen ec;
 	private int scalingIndex = 1;
+	
+	private long time = 0; //time for framerate
 
 	public GameWindow(int screenWidth, int screenHeight) {
 		this.screenWidth = screenWidth;
@@ -108,15 +111,23 @@ public class GameWindow {
 		}
 		
 		while (window.isOpen()) {
-			draw();
+			
 			handleCollisions();
 			handleMeteors();
 			handlePlayer();
 			handleShots();
+			draw();
 			
 			stepcounter++;
+			handleTime();
 			window.refreshAndClear(10);
+			time = System.currentTimeMillis();
 		}
+	}
+	
+	private void handleTime() {
+		window.setFontSize(10);
+		window.drawString("FPS: " + Long.toString(1000 / (System.currentTimeMillis() - time)), window.getWidth() * 0.9, window.getHeight() * 0.05);
 	}
 
 	private void handleCollisions() {
@@ -249,7 +260,7 @@ public class GameWindow {
 
 	private void drawStats() {
 		window.setColor(255, 255, 255);
-		window.setFontSize(10);
+		window.setFontSize(12);
 		window.drawString("Score: " + stepcounter, window.getWidth() * 0.45, window.getHeight() * 0.1);
 		window.drawString("Highscore: " + highscore, window.getWidth() * 0.45, window.getHeight() * 0.11);
 		window.drawString("Available shots: " + player.shotCounter, window.getWidth() * 0.1, window.getHeight() * 0.1);

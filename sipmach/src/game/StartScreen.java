@@ -2,7 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
-class StartScreen implements Drawable {
+class StartScreen extends Screen {
 	
 	private static final String[] modes = {"Downfall", "Mayhem", "Tease"};
 	private static final String[] meteors = {"DownfallMeteor", "MayhemMeteor", "TeaseMeteor"};
@@ -28,10 +28,11 @@ class StartScreen implements Drawable {
 	 */
 	
 	StartScreen(Window window){
+		super(window);
 		
 		// add startscreen to components
 		
-		window.addComponent(this);
+	
 		
 		width = window.getWidth();
 		height = window.getHeight();
@@ -90,11 +91,6 @@ class StartScreen implements Drawable {
 		}
 	}
 	
-	@Override
-	public void draw(Window window) {
-		window.setColor(0,0,0);
-		window.fillRect(0, 0, width, height);
-	}
 
 	private static double boxY(int counter) {
 		return highestBoxY + counter * 2 * boxHeight;

@@ -2,7 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
-public class EndScreen implements Drawable {
+public class EndScreen extends Screen {
 	
 	private final String[] options = {"Try Again", " Credits "};
 	public ArrayList<EndScreenButton> list = new ArrayList<EndScreenButton>();
@@ -11,7 +11,9 @@ public class EndScreen implements Drawable {
 	Window window;
 
 	EndScreen(Window window){
-		window.addComponent(this);
+		super(window);
+		
+		
 		this.window = window;
 		
 		double x = window.getWidth() * 0.3;
@@ -24,12 +26,6 @@ public class EndScreen implements Drawable {
 		for(int i = 0; i < list.size(); i++) {
 			window.addComponent(list.get(i));
 		}
-	}
-	
-	@Override
-	public void draw(Window window) {
-		window.setColor(0, 0, 0);
-		window.fillRect(0, 0, window.getWidth(), window.getHeight());
 	}
 	
 	public void rollCredits() {
